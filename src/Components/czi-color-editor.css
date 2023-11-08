@@ -1,0 +1,101 @@
+@import url("./czi-vars.css");
+
+.czi-color-editor {
+  background: #fff;
+  box-shadow: var(--czi-overlay-shadow);
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
+  padding: 4px 10px;
+  width: fit-content;
+  text-align: justify;
+}
+
+.czi-color-editor .czi-custom-button {
+  border-color: #fff;
+  border-style: solid;
+  border-width: 1px;
+  border: solid 1px #fff;
+  box-sizing: border-box;
+  height: 18px;
+  margin: 1px;
+  padding: 0;
+  width: 18px;
+}
+.czi-color-head{
+ font-size: 15px;
+ text-align: center;
+
+}
+.czi-color-more{
+  font-size: 15px;
+  text-align: center;
+
+}
+
+.czi-color-editor .czi-custom-button.czi-color-editor-color-transparent {
+  box-sizing: border-box;
+  display: block;
+  height: auto;
+  margin: 2px;
+  padding: 6px;
+  text-align: center;
+  width: auto;
+}
+
+.czi-color-editor .czi-custom-button.czi-color-editor-color-transparent:hover {
+  background-color: var(--czi-button-hover-background-color);
+}
+
+.czi-color-editor .czi-custom-button.active,
+.czi-color-editor .czi-custom-button:hover {
+  font-weight: normal;
+  outline: solid 1px #000;
+}
+
+.czi-color-editor-section {
+  margin: 8px 0;
+  width: 260px;
+}
+
+.czi-color-editor-section .czi-color-editor-cell {
+  width:20px;
+  height: 20px;
+  line-height: 28px;
+  padding-bottom: 0;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 0;
+  pointer-events: auto;
+  border: none;
+  margin-right: 6px;
+}
+.czi-color-recent{
+  height:40px;
+}
+
+.modal {
+    /* display: none; */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 1% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 23%;
+  }
+
+  .btn-ok{
+    justify-content: center;
+     display: flex;
+  }
