@@ -90,12 +90,31 @@
   .modal-content {
     background-color: #fefefe;
     margin: 1% auto;
-    padding: 20px;
+    padding: 7px;
     border: 1px solid #888;
-    width: 23%;
+    width: 20rem;
   }
 
-  .btn-ok{
-    justify-content: center;
-     display: flex;
+ 
+  .btn-ok {
+    display: flex;
+    padding-left: 158px;
+}
+  
+  
+  .cancel-btn,
+  .ok-btn {
+    padding: 10px 15px;
+    margin-left: 10px; 
+    border: 1px solid #3498db;
+    background-color: #fff;
+    color: #3498db; 
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .ok-btn {
+    background-color: #3498db; 
+    color: #fff; 
+    border: 1px solid #fff;
   }

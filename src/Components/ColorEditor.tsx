@@ -306,8 +306,14 @@ class ColorEditor extends React.PureComponent<any, any>{
                 variant={ColorPickerVariant.Free}
               />
               <div className="btn-ok">
-                <button onClick={() => this._onSelectColor(color)}>OK</button>
+                <button className="cancel-btn" onClick={() => this._onSelectColor(null)}>
+                  Cancel
+                </button>
+                <button className="ok-btn" onClick={() => this._onSelectColor(color)}>
+                  Ok
+                </button>
               </div>
+
 
             </div>
 
