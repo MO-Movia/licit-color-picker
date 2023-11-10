@@ -1,13 +1,10 @@
-import Color from 'color';
-import * as React from 'react';
+import Color from "color";
+import * as React from "react";
 
-import clamp from './clamp';
+import clamp from "./clamp";
 
-import './czi-color-editor.css';
-import ColorPicker, { ColorPickerVariant } from './ColorPicker';
-
-
-
+import "./czi-color-editor.css";
+import ColorPicker, { ColorPickerVariant } from "./ColorPicker";
 
 function generateGreyColors(count: number): Array<Color> {
   let cc = 255;
@@ -19,32 +16,192 @@ function generateGreyColors(count: number): Array<Color> {
     cc = Math.floor(cc);
     colors.unshift(color);
   }
+  console.log('colorsgrey', colors)
+
   return colors;
 }
 
-function generateRainbowColors(
-  count: number,
-  saturation: number,
-  lightness: number
-): Array<Color> {
-  const colors = [];
-  const interval = 360 / count;
-  const ss = clamp(0, saturation, 100);
-  const ll = clamp(0, lightness, 100);
-  let hue = 0;
-  while (hue < 360) {
-    const hsl = `hsl(${hue},${ss}%,${ll}%)`;
-    const color = Color(hsl);
-    colors.unshift(color);
-    hue += interval;
-  }
-  return colors;
-}
-class ColorEditor extends React.PureComponent {
+const customColors = [
+  { key: "color1", value: "#E53935" },
+  { key: "color2", value: "#FFB300" },
+  { key: "color3", value: "#FFF176" },
+  { key: "color4", value: "#81C784" },
+  { key: "color5", value: "#2E7D32" },
+  { key: "color6", value: "#03A9F4" },
+  { key: "color7", value: "#008080" },
+  { key: "color8", value: "#ff00ff" },
+  { key: "color9", value: "#512DA8" },
+];
+
+class ColorEditor extends React.PureComponent<any, any>{
   props: {
     close: (string) => void;
     hex?: string;
   };
+
+
+  renderCustomColor() {
+    const customColorElements = customColors.map((colorData, index) => {
+      const style = { backgroundColor: colorData.value };
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-${index}`}
+          onClick={() => this._onSelectColor(colorData.value)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElements;
+  }
+
+
+  renderCustomColorsWith10PercentOpacity() {
+    const customColorElementsWith10PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}1A` }; // 1A adds 10% opacity
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-10-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith10PercentOpacity;
+  }
+  renderCustomColorsWith20PercentOpacity() {
+    const customColorElementsWith20PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}33` }; // 33 adds 20% opacity
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-20-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith20PercentOpacity;
+  }
+
+  renderCustomColorsWith30PercentOpacity() {
+    const customColorElementsWith30PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}4D` }; // 4D adds 30% opacity
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-30-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith30PercentOpacity;
+  }
+
+  renderCustomColorsWith40PercentOpacity() {
+    const customColorElementsWith40PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}66` }; // 66 adds 40% opacity
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-40-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith40PercentOpacity;
+  }
+
+  renderCustomColorsWith50PercentOpacity() {
+    const customColorElementsWith50PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}80` }; // 80 adds 50% opacity
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-50-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith50PercentOpacity;
+  }
+
+  renderCustomColorsWith60PercentOpacity() {
+    const customColorElementsWith60PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}99` };
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-60-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith60PercentOpacity;
+  }
+
+  renderCustomColorsWith70PercentOpacity() {
+    const customColorElementsWith70PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}B3` };
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-70-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith70PercentOpacity;
+  }
+
+  renderCustomColorsWith80PercentOpacity() {
+    const customColorElementsWith80PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}CC` };
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-80-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith80PercentOpacity;
+  }
+
+
+  renderCustomColorsWith90PercentOpacity() {
+    const customColorElementsWith90PercentOpacity = customColors.map((colorData, index) => {
+      const style = { backgroundColor: `${colorData.value}E6` };
+      return (
+        <button
+          className="czi-color-editor-cell"
+          key={`custom-color-opacity-90-${index}`}
+          onClick={() => this._onSelectColor(`${colorData.value}`)}
+          style={style}
+        />
+      );
+    });
+
+    return customColorElementsWith90PercentOpacity;
+  }
+
+
 
 
   constructor(props) {
@@ -56,30 +213,16 @@ class ColorEditor extends React.PureComponent {
     };
   }
 
-
-
-
   render() {
-    const showFirst = (this.state as any).showFirst;
-    const color = (this.state as any).color;
-
-    
+    const showFirst = this.state.showFirst;
+    const color = this.state.color;
     const renderColor = this._renderColor;
     const selectedColor = this.props.hex;
 
-
-
-    // function handleChange(color: string): void {
-    //   throw new Error('Function not implemented.');
-    // }
-
     const handleChange = (color) => {
-      console.log('colorr', color)
+      console.log("colorr", color);
       this.setState({ color });
-    }
-
-
-
+    };
 
 
     return (
@@ -98,14 +241,36 @@ class ColorEditor extends React.PureComponent {
               {generateGreyColors(10).map(renderColor)}
             </div>
             <div className="czi-color-editor-section">
-              {generateRainbowColors(10, 90, 50).map(renderColor)}
+              {this.renderCustomColor()}
             </div>
             <div className="czi-color-editor-section">
-              {generateRainbowColors(30, 70, 70).map(renderColor)}
+              {this.renderCustomColorsWith10PercentOpacity()}
             </div>
             <div className="czi-color-editor-section">
-              {generateRainbowColors(30, 90, 30).map(renderColor)}
+              {this.renderCustomColorsWith20PercentOpacity()}
             </div>
+            <div className="czi-color-editor-section">
+              {this.renderCustomColorsWith30PercentOpacity()}
+            </div>
+            <div className="czi-color-editor-section">
+              {this.renderCustomColorsWith40PercentOpacity()}
+            </div>
+            <div className="czi-color-editor-section">
+              {this.renderCustomColorsWith50PercentOpacity()}
+            </div>
+            <div className="czi-color-editor-section">
+              {this.renderCustomColorsWith60PercentOpacity()}
+            </div>
+            <div className="czi-color-editor-section">
+              {this.renderCustomColorsWith70PercentOpacity()}
+            </div>
+            <div className="czi-color-editor-section">
+              {this.renderCustomColorsWith80PercentOpacity()}
+            </div>
+            <div className="czi-color-editor-section">
+              {this.renderCustomColorsWith90PercentOpacity()}
+            </div>
+
             <hr></hr>
             <div className="czi-color-editor-section czi-color-head">
               <div className="czi-color-editor-color-transparent">
@@ -140,8 +305,12 @@ class ColorEditor extends React.PureComponent {
                 onChange={handleChange}
                 variant={ColorPickerVariant.Free}
               />
+              <div className="btn-ok">
+                <button onClick={() => this._onSelectColor(color)}>OK</button>
+              </div>
 
             </div>
+
           </div>
         }
 
@@ -149,12 +318,10 @@ class ColorEditor extends React.PureComponent {
 
       </div>
     );
+
   }
 
-  _renderColor = (
-    color: Color,
-    index: number
-  ): React.ReactElement => {
+  _renderColor = (color: Color, index: number): React.ReactElement => {
     const selectedColor = this.props.hex;
     const hex = color.hex().toLowerCase();
     const style = { backgroundColor: hex };
@@ -166,15 +333,13 @@ class ColorEditor extends React.PureComponent {
         onClick={() => this._onSelectColor(hex)}
         style={style}
         value={hex}
-
       />
     );
   };
 
   _onSelectColor = (hex: string): void => {
-    console.log('clrrr', hex)
+    console.log("clrrr", hex);
     this.props.close(hex);
   };
-
 }
 export default ColorEditor;
