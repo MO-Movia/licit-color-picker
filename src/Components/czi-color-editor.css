@@ -54,7 +54,7 @@
 
 .czi-color-editor-section {
   margin: 8px 0;
-  width: 260px;
+  width: 204px;
 }
 
 .czi-color-editor-section .czi-color-editor-cell {
@@ -117,4 +117,38 @@
     background-color: #3498db; 
     color: #fff; 
     border: 1px solid #fff;
+  }
+
+  .customColorTable{
+    margin-left: 1px;
+  }  
+  .customFirstColorTable{
+    margin-left: 2px;
+  }
+  .customFirstColorTable td{
+    width: 19px;
+    height: 16px;
+  }
+
+  .customColorTable td{
+    width: 19px;
+    height: 16px;
+    cursor: pointer;
+  }
+  .randomColorTable td{
+    width: 17px;
+    height: 15px;
+    cursor: pointer;
+  }
+  table{
+    border-spacing: 0px;
+  }
+  .flexCustomArea{
+    display: flex;
+  }
+
+  .randomColorTable{
+    border-collapse: separate;
+    border-spacing: 3px;
+    border-collapse: expression('separate', cellSpacing='10px');
   }
