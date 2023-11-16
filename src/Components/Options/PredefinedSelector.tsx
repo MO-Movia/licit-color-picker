@@ -15,7 +15,7 @@ export const PredefinedSelector = (props: PredefinedSelectorProps) => {
 
   return (
     <div
-      className="cp-predefined-root"
+      className="mocp cp-predefined-root"
       style={{
         height: 2 + 35 * predefinedRows + "px",
         width: 16 + 35 * Math.ceil(colors.length / predefinedRows) + "px"
@@ -23,7 +23,7 @@ export const PredefinedSelector = (props: PredefinedSelectorProps) => {
     >
       {colors.map((color) => (
         <button
-          className="cp-color-button"
+          className="mocp cp-color-button"
           key={color}
           onClick={(event) => onSelect(color)}
           style={{
@@ -31,7 +31,7 @@ export const PredefinedSelector = (props: PredefinedSelectorProps) => {
           }}
         >
           <div
-            className="cp-preview-color"
+            className="mocp cp-preview-color"
             style={{
               background: color
             }}

@@ -20,16 +20,16 @@ export const FreeSelector = (props: FreeSelectorProps) => {
   } = props;
 
   return (
-    <div className="cp-free-root">
+    <div className="mocp cp-free-root">
       <div
-        className="cp-saturation"
+        className="mocp cp-saturation"
         style={{
           backgroundColor: `hsl(${parsedColor.hsv.h}, 100%, 50%)`
         }}
         onClick={onSaturationChange}
       >
         <div
-          className="cp-saturation-indicator"
+          className="mocp cp-saturation-indicator"
           style={{
             backgroundColor: parsedColor.hex,
             left: (satCoords?.[0] ?? 0) + "%",
@@ -37,9 +37,9 @@ export const FreeSelector = (props: FreeSelectorProps) => {
           }}
         />
       </div>
-      <div className="cp-hue" onClick={onHueChange}>
+      <div className="mocp cp-hue" onClick={onHueChange}>
         <div
-          className="cp-hue-indicator"
+          className="mocp cp-hue-indicator"
           style={{
             backgroundColor: parsedColor.hex,
             left: (hueCoords ?? 0) + "%"

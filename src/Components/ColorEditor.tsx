@@ -5,6 +5,7 @@ import clamp from "./clamp";
 
 import "./czi-color-editor.css";
 import ColorPicker, { ColorPickerVariant } from "./ColorPicker";
+import { MoreColor } from "../Interfaces/Color";
 
 
 const HeaderColors = {
@@ -170,7 +171,10 @@ class ColorEditor extends React.PureComponent<any, any>{
   props: {
     close: (string) => void;
     hex?: string;
+    runtime?: any;
   };
+
+  _recentColorList: MoreColor[];
 
   renderCustomColors(colorName, arrList, TypeName) {
     const colorData = arrList.colors.find((color) => color.name === colorName);
@@ -189,7 +193,7 @@ class ColorEditor extends React.PureComponent<any, any>{
             key={`custom-color-${shadeIndex}`}
             onClick={() => this._onSelectColor(shade.value)}
             style={style}
-            className="czi-color-editor-cell"
+            className="mocp czi-color-editor-cell"
           ></td></tr>
         );
       }
@@ -199,7 +203,7 @@ class ColorEditor extends React.PureComponent<any, any>{
             key={`custom-color-${shadeIndex}`}
             onClick={() => this._onSelectColor(shade.value)}
             style={style}
-            className="czi-color-editor-cell"
+            className="mocp czi-color-editor-cell"
           ></td>
         );
       }
@@ -209,14 +213,14 @@ class ColorEditor extends React.PureComponent<any, any>{
     });
     if (TypeName == "Custom") {
       return (
-        <tr><td className="czi-color-editor-column">
+        <tr><td className="mocp czi-color-editor-column">
           {colorButtons}
         </td></tr>
       );
     }
     else {
       return (
-        <tr className="czi-color-editor-column">
+        <tr className="mocp czi-color-editor-column">
           {colorButtons}
         </tr>
       );
@@ -226,7 +230,7 @@ class ColorEditor extends React.PureComponent<any, any>{
 
   renderCustomColorsTable = () => {
     return colorNames.map((colorName, index) => (
-      <table key={colorName} className={`${index === 0 ? 'customFirstColorTable' : 'customColorTable'}`}>
+      <table key={colorName} className={`${index === 0 ? 'mocp customFirstColorTable' : 'mocp customColorTable'}`}>
         <tbody>{this.renderCustomColors(colorName, customColors, "Custom")}</tbody>
       </table>
     ));
@@ -236,7 +240,7 @@ class ColorEditor extends React.PureComponent<any, any>{
   renderHeaderColorsTable = () => {
     return headerColorNames.map((colorName) => (
       <div key={colorName}>
-        <table className="randomColorTable">
+        <table className="mocp randomColorTable">
           <tbody>
             {this.renderCustomColors(colorName, HeaderColors, "Header")}
           </tbody>
@@ -245,13 +249,69 @@ class ColorEditor extends React.PureComponent<any, any>{
     ));
   };
 
+  renderRecentColors = () => {
+    // this._getRecentColors();
+
+    return (
+      <div key={'recent_colors'}>
+        <table className="mocp randomColorTable">
+          <tbody>
+            {this.renderRecentCustomColors()}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  renderRecentCustomColors() {
+    // const colorData = this._recentColorList;
+    const { recentColors } = this.state;
+    if (undefined === recentColors.data) {
+      return null;
+    }
+    const colorButtons = recentColors.data.map((shade, shadeIndex) => {
+      const style = {
+        backgroundColor: shade.color,
+        border: shade.color === "#ffffff" ? "1px solid #eeeff1" : "none"
+      };
+      return (
+        <td
+          key={`custom-color-${shade.id}`}
+          onClick={() => this._onSelectColor(shade.color)}
+          style={style}
+          className="mocp czi-color-editor-cell"
+
+        >
+          <div className="mocp close-button" onClick={() => this._onRemoverecent(shade.id)}>X</div>
+        </td>
+      );
+    });
+
+    return (
+      <tr className="mocp czi-color-editor-column">
+        {colorButtons}
+      </tr>
+    );
+
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       color: '#ffffff',
       showFirst: true,
+      recentColors: []
     };
+  }
+
+  async componentDidMount() {
+    try {
+      const response = await this._getRecentColors();
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   }
 
   render() {
@@ -259,43 +319,43 @@ class ColorEditor extends React.PureComponent<any, any>{
     const color = this.state.color;
     const renderColor = this._renderColor;
     const selectedColor = this.props.hex;
-
     const handleChange = (color) => {
       this.setState({ color });
     };
 
 
     return (
-      <div className="czi-color-editor">
+      <div className="mocp czi-color-editor">
 
         {showFirst &&
           <div >
-            <div className="czi-color-editor-section">
-              <div
-                className="czi-color-editor-color-transparent czi-color-head">
+            <div className="mocp czi-color-editor-section">
+              <div className="mocp czi-color-editor-color-transparent czi-color-head">
                 Select Color
               </div>
             </div>
-            <div>
+            <div className="mocp">
               {this.renderHeaderColorsTable()}
             </div>
 
-            <div className="flexCustomArea">
+            <div className="mocp flexCustomArea">
               {this.renderCustomColorsTable()}
             </div>
 
-            <hr></hr>
-            <div className="czi-color-editor-section czi-color-head">
-              <div className="czi-color-editor-color-transparent">
+            <hr className="mocp"></hr>
+            <div className="mocp czi-color-editor-section czi-color-head">
+              <div className="mocp czi-color-editor-color-transparent">
                 Recent Colors
               </div>
             </div>
-            <div className="czi-color-recent"></div>
-            <hr></hr>
+            <div className="mocp czi-color-recent">
+              {this.renderRecentColors()}
+            </div>
+            <hr className="mocp"></hr>
 
 
-            <div className="czi-color-editor-section czi-color-more">
-              <div onClick={() => this.setState({ showFirst: false })} className="czi-color-editor-color-transparent">
+            <div className="mocp czi-color-editor-section czi-color-more">
+              <div onClick={() => this.setState({ showFirst: false })} className="mocp czi-color-editor-color-transparent">
                 More Colors...
               </div>
             </div>
@@ -306,8 +366,8 @@ class ColorEditor extends React.PureComponent<any, any>{
 
 
         {!showFirst &&
-          <div className="modal">
-            <div className="modal-content">
+          <div className="mocp modal">
+            <div className="mocp modal-content">
               <ColorPicker
                 color={color}
                 onChange={handleChange}
@@ -318,11 +378,11 @@ class ColorEditor extends React.PureComponent<any, any>{
                 onChange={handleChange}
                 variant={ColorPickerVariant.Free}
               />
-              <div className="btn-ok">
-                <button className="cancel-btn" onClick={() => this._onSelectColor(null)}>
+              <div className="mocp btn-ok">
+                <button className="mocp cancel-btn" onClick={() => this._onSelectColor(null)}>
                   Cancel
                 </button>
-                <button className="ok-btn" onClick={() => this._onSelectColor(color)}>
+                <button className="mocp ok-btn" onClick={() => this._onSaveColor(color)}>
                   Ok
                 </button>
               </div>
@@ -346,7 +406,7 @@ class ColorEditor extends React.PureComponent<any, any>{
     const active = selectedColor && selectedColor.toLowerCase() === hex;
     return (
       <button
-        className="czi-color-editor-cell"
+        className="mocp czi-color-editor-cell"
         key={`${hex}-${index}`}
         onClick={() => this._onSelectColor(hex)}
         style={style}
@@ -357,7 +417,74 @@ class ColorEditor extends React.PureComponent<any, any>{
 
   _onSelectColor = (hex: string): void => {
     console.log("clrrr", hex);
-    this.props.close(hex);
+    // let color: string
+    // this.props.close(hex);
+    this._onSuccess({ id: 1, color: hex });
+    // this._saveRecentColor({ id: 1, color: hex });
+
   };
+
+  _onRemoverecent = (id: null): void => {
+
+    if (this.props.runtime) {
+      let runtime = this.props.runtime;
+      const { removeRecentColor } = runtime;
+      if (removeRecentColor) {
+        if (this._recentColorList) {
+          let index = this._recentColorList.findIndex(c => c.id === id);
+          if (index > -1) {
+            this._recentColorList.splice(index, 1);
+          }
+          removeRecentColor(id);
+        }
+      }
+    }
+  };
+
+  _onSaveColor = (hex: string): void => {
+    this._saveRecentColor({ id: 1, color: hex });
+
+  };
+
+
+  _saveRecentColor = async (col: MoreColor): Promise<void> => {
+    let _col: MoreColor;
+    if (this.props.runtime) {
+      let runtime = this.props.runtime;
+      const { saveRecentColor } = runtime;
+      if (saveRecentColor) {
+        if (this._recentColorList) {
+          col.id = this._recentColorList.length + 1;
+        } else {
+          this._recentColorList = [];
+        }
+        this._recentColorList.push(col);
+        _col = await saveRecentColor(this._recentColorList);
+      }
+    }
+    this._onSuccess(col);
+  }
+
+  _onSuccess = (cols: MoreColor): void => {
+
+    this.props.close(cols.color);
+  };
+
+  _getRecentColors = async (): Promise<void> => {
+
+    if (this.props.runtime) {
+      let runtime = this.props.runtime;
+      const { getRecentColors } = runtime;
+      if (getRecentColors) {
+        this._recentColorList = await getRecentColors();
+        this.setState({ recentColors: this._recentColorList });
+
+      }
+    }
+
+  }
+
 }
 export default ColorEditor;
+
+

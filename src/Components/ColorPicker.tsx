@@ -61,7 +61,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
   const handleRgbChange = useCallback(
     (component: 'r' | 'g' | 'b', value: string) => {
       const { r, g, b } = parsedColor.rgb;
-  
+
       switch (component) {
         case "r":
           onChange(rgbToHex({ r: parseInt(value) || 0, g, b }));
@@ -78,7 +78,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
     },
     [parsedColor, onChange]
   );
-  
+
 
   // const handleRgbChange = useCallback(
   //   (component, value) => {
@@ -138,37 +138,37 @@ export const ColorPicker = (props: ColorPickerProps) => {
   const handleSaturationChange = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const { width, height, left, top } = event.currentTarget.getBoundingClientRect();
-  
+
       const x = clamp(event.clientX - left, 0, width);
       const y = clamp(event.clientY - top, 0, height);
-  
+
       const s = (x / width) * 100;
       const v = 100 - (y / height) * 100;
-  
+
       const rgb = hsvToRgb({ h: parsedColor?.hsv.h, s, v });
-  
+
       onChange(rgbToHex(rgb));
     },
     [parsedColor, onChange]
   );
-  
+
   const handleHueChange = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const { width, left } = event.currentTarget.getBoundingClientRect();
       const x = clamp(event.clientX - left, 0, width);
       const h = Math.round((x / width) * 360);
-  
+
       const hsv = { h, s: parsedColor?.hsv.s, v: parsedColor?.hsv.v };
       const rgb = hsvToRgb(hsv);
-  
+
       onChange(rgbToHex(rgb));
     },
     [parsedColor, onChange]
   );
-  
+
 
   return (
-    <div className="cp-container">
+    <div className="mocp cp-container">
       {variant === ColorPickerVariant.Predefined ? (
         <PredefinedSelector
           colors={colors}
@@ -185,21 +185,21 @@ export const ColorPicker = (props: ColorPickerProps) => {
         />
       )}
 
-      <div className="cp-input-container">
-        <div className="cp-input-group">
+      <div className="mocp cp-input-container">
+        <div className="mocp cp-input-group">
           <div
-            className="cp-color-preview"
+            className="mocp cp-color-preview"
             style={{
               background: color
             }}
           />
           <div>
-            <label className="cp-input-label" htmlFor="cp-input-hex">
+            <label className="mocp cp-input-label" htmlFor="cp-input-hex">
               Hex
             </label>
             <input
               id="cp-input-hex"
-              className="cp-hex-input"
+              className="mocp cp-hex-input"
               placeholder="Hex"
               value={parsedColor?.hex}
               onChange={handleHexChange}
@@ -207,14 +207,14 @@ export const ColorPicker = (props: ColorPickerProps) => {
           </div>
         </div>
 
-        <div className="cp-input-group">
+        <div className="mocp cp-input-group">
           <div>
-            <label className="cp-input-label" htmlFor="cp-input-r">
+            <label className="mocp cp-input-label" htmlFor="cp-input-r">
               R
             </label>
             <input
               id="cp-input-r"
-              className="cp-rgb-input"
+              className="mocp cp-rgb-input"
               placeholder="R"
               value={parsedColor.rgb.r}
               onChange={(event) => handleRgbChange("r", event.target.value)}
@@ -223,12 +223,12 @@ export const ColorPicker = (props: ColorPickerProps) => {
             />
           </div>
           <div>
-            <label className="cp-input-label" htmlFor="cp-input-g">
+            <label className="mocp cp-input-label" htmlFor="cp-input-g">
               G
             </label>
             <input
               id="cp-input-g"
-              className="cp-rgb-input"
+              className="mocp cp-rgb-input"
               placeholder="G"
               value={parsedColor.rgb.g}
               onChange={(event) => handleRgbChange("g", event.target.value)}
@@ -237,12 +237,12 @@ export const ColorPicker = (props: ColorPickerProps) => {
             />
           </div>
           <div>
-            <label className="cp-input-label" htmlFor="cp-input-b">
+            <label className="mocp cp-input-label" htmlFor="cp-input-b">
               B
             </label>
             <input
               id="cp-input-b"
-              className="cp-rgb-input"
+              className="mocp cp-rgb-input"
               placeholder="B"
               value={parsedColor.rgb.b}
               onChange={(event) => handleRgbChange("b", event.target.value)}
@@ -259,7 +259,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
 ColorPicker.defaultProps = {
   color: DEFAULT_COLOR,
   colors: DEFAULT_COLORS,
-  onChange: (color: string) => {},
+  onChange: (color: string) => { },
   variant: ColorPickerVariant.Predefined
 };
 
