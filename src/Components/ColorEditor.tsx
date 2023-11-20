@@ -266,10 +266,10 @@ class ColorEditor extends React.PureComponent<any, any>{
   renderRecentCustomColors() {
     // const colorData = this._recentColorList;
     const { recentColors } = this.state;
-    if (undefined === recentColors.data) {
+    if (undefined === recentColors) {
       return null;
     }
-    const colorButtons = recentColors.data.map((shade, shadeIndex) => {
+    const colorButtons = recentColors.map((shade, shadeIndex) => {
       const style = {
         backgroundColor: shade.color,
         border: shade.color === "#ffffff" ? "1px solid #eeeff1" : "none"
@@ -428,14 +428,14 @@ class ColorEditor extends React.PureComponent<any, any>{
 
     if (this.props.runtime) {
       let runtime = this.props.runtime;
-      const { removeRecentColor } = runtime;
-      if (removeRecentColor) {
+      const { deleteRecentColorById } = runtime;
+      if (deleteRecentColorById) {
         if (this._recentColorList) {
           let index = this._recentColorList.findIndex(c => c.id === id);
           if (index > -1) {
             this._recentColorList.splice(index, 1);
           }
-          removeRecentColor(id);
+          deleteRecentColorById(id);
         }
       }
     }
@@ -453,12 +453,16 @@ class ColorEditor extends React.PureComponent<any, any>{
       let runtime = this.props.runtime;
       const { saveRecentColor } = runtime;
       if (saveRecentColor) {
-        if (this._recentColorList) {
-          col.id = this._recentColorList.length + 1;
+        if (this._recentColorList && this._recentColorList.length > 0) {
+          col.id = Math.max(...this._recentColorList.map(obj => obj.id)) + 1;
         } else {
           this._recentColorList = [];
         }
         this._recentColorList.push(col);
+        if (this._recentColorList.length > 9) {
+          const sortedArray = this._recentColorList.slice().sort((a: MoreColor, b: MoreColor) => b.id - a.id);
+          this._recentColorList = sortedArray.slice(0, 10);
+        }
         _col = await saveRecentColor(this._recentColorList);
       }
     }
@@ -477,6 +481,7 @@ class ColorEditor extends React.PureComponent<any, any>{
       const { getRecentColors } = runtime;
       if (getRecentColors) {
         this._recentColorList = await getRecentColors();
+        this._recentColorList = this._recentColorList.slice().sort((a: MoreColor, b: MoreColor) => b.id - a.id);
         this.setState({ recentColors: this._recentColorList });
 
       }
