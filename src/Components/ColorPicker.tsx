@@ -80,60 +80,6 @@ export const ColorPicker = (props: ColorPickerProps) => {
   );
 
 
-  // const handleRgbChange = useCallback(
-  //   (component, value) => {
-  //     const { r, g, b } = parsedColor.rgb;
-
-  //     switch (component) {
-  //       case "r":
-  //         onChange(rgbToHex({ r: value ?? 0, g, b }));
-  //         return;
-  //       case "g":
-  //         onChange(rgbToHex({ r, g: value ?? 0, b }));
-  //         return;
-  //       case "b":
-  //         onChange(rgbToHex({ r, g, b: value ?? 0 }));
-  //         return;
-  //       default:
-  //         return;
-  //     }
-  //   },
-  //   [parsedColor, onChange]
-  // );
-
-  // const handleSaturationChange = useCallback(
-  //   (event) => {
-  //     const { width, height, left, top } = event.target.getBoundingClientRect();
-
-  //     const x = clamp(event.clientX - left, 0, width);
-  //     const y = clamp(event.clientY - top, 0, height);
-
-  //     const s = (x / width) * 100;
-  //     const v = 100 - (y / height) * 100;
-
-  //     const rgb = hsvToRgb({ h: parsedColor?.hsv.h, s, v });
-
-  //     onChange(rgbToHex(rgb));
-  //   },
-  //   [parsedColor, onChange]
-  // );
-
-  // const handleHueChange = useCallback(
-  //   (event) => {
-  //     const { width, left } = event.target.getBoundingClientRect();
-  //     const x = clamp(event.clientX - left, 0, width);
-  //     const h = Math.round((x / width) * 360);
-
-  //     const hsv = { h, s: parsedColor?.hsv.s, v: parsedColor?.hsv.v };
-  //     const rgb = hsvToRgb(hsv);
-
-  //     onChange(rgbToHex(rgb));
-  //   },
-  //   [parsedColor, onChange]
-  // );
-
-
-
 
   const handleSaturationChange = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -167,6 +113,9 @@ export const ColorPicker = (props: ColorPickerProps) => {
   );
 
 
+ 
+
+
   return (
     <div className="mocp cp-container">
       {variant === ColorPickerVariant.Predefined ? (
@@ -185,7 +134,9 @@ export const ColorPicker = (props: ColorPickerProps) => {
         />
       )}
 
-      <div className="mocp cp-input-container">
+{variant === ColorPickerVariant.Free &&
+
+      <div  className="mocp cp-input-container">
         <div className="mocp cp-input-group">
           <div
             className="mocp cp-color-preview"
@@ -252,6 +203,7 @@ export const ColorPicker = (props: ColorPickerProps) => {
           </div>
         </div>
       </div>
+}
     </div>
   );
 };

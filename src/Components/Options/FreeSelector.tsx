@@ -21,31 +21,40 @@ export const FreeSelector = (props: FreeSelectorProps) => {
 
   return (
     <div className="mocp cp-free-root">
-      <div
-        className="mocp cp-saturation"
-        style={{
-          backgroundColor: `hsl(${parsedColor.hsv.h}, 100%, 50%)`
-        }}
-        onClick={onSaturationChange}
-      >
+
+        <div className="mocp cp-hue" onClick={onHueChange}>
+          <div
+            className="mocp cp-hue-indicator"
+            style={{
+              backgroundColor: parsedColor.hex,
+              left: (hueCoords ?? 0) + "%"
+            }}
+            title={`Hue Coords: ${hueCoords}`}
+          />
+
+        </div>
+
+      <div style={{ paddingTop: 8 }}>
+
         <div
-          className="mocp cp-saturation-indicator"
+
+          className="mocp cp-saturation"
           style={{
-            backgroundColor: parsedColor.hex,
-            left: (satCoords?.[0] ?? 0) + "%",
-            top: (satCoords?.[1] ?? 0) + "%"
+            backgroundColor: `hsl(${parsedColor.hsv.h}, 100%, 50%)`
           }}
-        />
+          onClick={onSaturationChange}
+        >
+          <div
+            className="mocp cp-saturation-indicator"
+            style={{
+              backgroundColor: parsedColor.hex,
+              left: (satCoords?.[0] ?? 0) + "%",
+              top: (satCoords?.[1] ?? 0) + "%"
+            }}
+          />
+        </div>
       </div>
-      <div className="mocp cp-hue" onClick={onHueChange}>
-        <div
-          className="mocp cp-hue-indicator"
-          style={{
-            backgroundColor: parsedColor.hex,
-            left: (hueCoords ?? 0) + "%"
-          }}
-        />
-      </div>
+
     </div>
   );
 };

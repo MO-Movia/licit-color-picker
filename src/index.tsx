@@ -7,7 +7,6 @@ import ReactDOM from 'react-dom/client';
 const root = document.getElementById("root"); // Get the root element
 
 if (root) {
-    console.log('roottt', root)
   const app = (
     <React.StrictMode>
       <ColorEditor close={(color:any) => {}} />

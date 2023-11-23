@@ -239,7 +239,7 @@ class ColorEditor extends React.PureComponent<any, any>{
 
   renderHeaderColorsTable = () => {
     return headerColorNames.map((colorName) => (
-      <div key={colorName}>
+      <div key={colorName} className="headerColorDiv">
         <table className="mocp randomColorTable">
           <tbody>
             {this.renderCustomColors(colorName, HeaderColors, "Header")}
@@ -282,7 +282,9 @@ class ColorEditor extends React.PureComponent<any, any>{
           className="mocp czi-color-editor-cell"
 
         >
-          <div className="mocp close-button" onClick={() => this._onRemoverecent(shade.id)}>X</div>
+          <div className="mocp close-button-container">
+            <div className="mocp close-button" onClick={() => this._onRemoverecent(shade.id)}>X</div>
+          </div>
         </td>
       );
     });
@@ -299,7 +301,7 @@ class ColorEditor extends React.PureComponent<any, any>{
     super(props);
 
     this.state = {
-      color: '#ffffff',
+      color: '#b71c1c',
       showFirst: true,
       recentColors: []
     };
@@ -383,7 +385,7 @@ class ColorEditor extends React.PureComponent<any, any>{
                   Cancel
                 </button>
                 <button className="mocp ok-btn" onClick={() => this._onSaveColor(color)}>
-                  Ok
+                  OK
                 </button>
               </div>
 

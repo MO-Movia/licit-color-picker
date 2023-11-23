@@ -29,6 +29,7 @@
 .czi-color-more{
   font-size: 15px;
   text-align: center;
+  cursor: pointer;
 
 }
 
@@ -74,7 +75,6 @@
 }
 
 .modal {
-    /* display: none; */
     position: fixed;
     z-index: 1;
     left: 0;
@@ -92,13 +92,15 @@
     margin: 1% auto;
     padding: 7px;
     border: 1px solid #888;
-    width: 20rem;
+    width: 19.5rem;
+    height: 26.5rem;
   }
 
  
   .btn-ok {
     display: flex;
-    padding-left: 158px;
+    padding-left: 160px;
+    padding-top: 6px;
 }
   
   
@@ -126,7 +128,7 @@
     margin-left: 2px;
   }
   .customFirstColorTable td{
-    width: 19px;
+    width: 18px;
     height: 16px;
   }
 
@@ -136,19 +138,27 @@
     cursor: pointer;
   }
   .randomColorTable td{
-    width: 17px;
+    width: 16.4px;
     height: 15px;
     cursor: pointer;
+    padding: 1.3px;
   }
   table{
     border-spacing: 0px;
   }
   .flexCustomArea{
     display: flex;
+    margin-left: 3px;
   }
 
   .randomColorTable{
     border-collapse: separate;
     border-spacing: 3px;
     border-collapse: expression('separate', cellSpacing='10px');
+    margin-left: 1px;
+  }
+
+  .headerColorDiv{
+    margin-left: 2px;
+    padding-right: 0px;
   }
