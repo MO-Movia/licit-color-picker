@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   clamp,
   DEFAULT_COLOR,
@@ -26,12 +26,8 @@ interface ColorPickerProps {
 
 export const ColorPicker = (props: ColorPickerProps) => {
   const { color, colors, onChange, variant } = props;
-  const [parsedColor, setParsedColor] = useState(parseColor(color));
 
-  
-
-
-  //const parsedColor = useMemo(() => parseColor(color), [color]);
+  const parsedColor = useMemo(() => parseColor(color), [color]);
   const satCoords = useMemo(() => getSaturationCoordinates(parsedColor), [
     parsedColor
   ]);
@@ -39,71 +35,81 @@ export const ColorPicker = (props: ColorPickerProps) => {
     parsedColor
   ]);
 
-
-
   const handleHexChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       let val = event.target.value;
       if (val?.slice(0, 1) !== "#") {
         val = "#" + val;
       }
-     // onChange(val);
-      setParsedColor(parseColor(val));
-
+      onChange(val);
     },
-   [setParsedColor]
-  // [setParsedColor(parseColor(''))]
-
+    [onChange]
   );
 
+  // const handleHexChange = useCallback(
+  //   (event) => {
+  //     var val = event.target.value;
+  //     if (val?.slice(0, 1) !== "#") {
+  //       val = "#" + val;
+  //     }
+  //     onChange(val);
+  //   },
+  //   [onChange]
+  // );
 
 
   const handleRgbChange = useCallback(
     (component: 'r' | 'g' | 'b', value: string) => {
       const { r, g, b } = parsedColor.rgb;
+
       switch (component) {
         case "r":
-          setParsedColor(parseColor(rgbToHex({ r: parseInt(value) || 0, g, b })));
+          onChange(rgbToHex({ r: parseInt(value) || 0, g, b }));
           return;
         case "g":
-          setParsedColor(parseColor(rgbToHex({ r, g: parseInt(value) || 0, b })));
+          onChange(rgbToHex({ r, g: parseInt(value) || 0, b }));
           return;
         case "b":
-          setParsedColor(parseColor(rgbToHex({ r, g, b: parseInt(value) || 0 })));
+          onChange(rgbToHex({ r, g, b: parseInt(value) || 0 }));
           return;
         default:
           return;
       }
     },
-    [parsedColor, setParsedColor]
+    [parsedColor, onChange]
   );
+
 
 
   const handleSaturationChange = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const { width, height, left, top } = event.currentTarget.getBoundingClientRect();
+
       const x = clamp(event.clientX - left, 0, width);
       const y = clamp(event.clientY - top, 0, height);
+
       const s = (x / width) * 100;
       const v = 100 - (y / height) * 100;
-      const rgb = hsvToRgb({ h: parsedColor?.hsv.h, s, v });
-      setParsedColor(parseColor(rgbToHex(rgb)));
-    },
-    [parsedColor, setParsedColor]
-  );
 
+      const rgb = hsvToRgb({ h: parsedColor?.hsv.h, s, v });
+
+      onChange(rgbToHex(rgb));
+    },
+    [parsedColor, onChange]
+  );
 
   const handleHueChange = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const { width, left } = event.currentTarget.getBoundingClientRect();
       const x = clamp(event.clientX - left, 0, width);
       const h = Math.round((x / width) * 360);
+
       const hsv = { h, s: parsedColor?.hsv.s, v: parsedColor?.hsv.v };
       const rgb = hsvToRgb(hsv);
-      const newHexColor = rgbToHex(rgb);
-      setParsedColor(parseColor(newHexColor));
+
+      onChange(rgbToHex(rgb));
     },
-    [parsedColor, setParsedColor]
+    [parsedColor, onChange]
   );
 
 
@@ -113,14 +119,12 @@ export const ColorPicker = (props: ColorPickerProps) => {
   return (
     <div className="mocp cp-container">
       {variant === ColorPickerVariant.Predefined ? (
-        //circles for select
         <PredefinedSelector
-        colors={colors}
-        parsedColor={parsedColor}
-        onSelect={(color: string) => setParsedColor(parseColor(color))}
-      />
+          colors={colors}
+          parsedColor={parsedColor}
+          onSelect={onChange}
+        />
       ) : (
-        // selection box
         <FreeSelector
           parsedColor={parsedColor}
           satCoords={satCoords}
