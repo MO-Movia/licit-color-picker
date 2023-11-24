@@ -283,7 +283,7 @@ class ColorEditor extends React.PureComponent<any, any>{
 
         >
           <div className="mocp close-button-container">
-            <div className="mocp close-button" onClick={() => this._onRemoverecent(shade.id)}>X</div>
+            <div className="mocp close-button" onClick={() => this._onRemoverecent(shade.id)}><span className="close-button-x" >x</span></div>
           </div>
         </td>
       );
