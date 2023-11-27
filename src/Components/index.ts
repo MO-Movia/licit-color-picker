@@ -1,3 +1,3 @@
-export * from "./ColorPicker";
+export * from './ColorPicker';
 export * from './ColorEditor';
 

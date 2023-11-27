@@ -1,6 +1,6 @@
-import React, { MouseEventHandler } from "react";
-import { Color } from "../../Interfaces/Color";
-import "./FreeSelector.css";
+import React, { MouseEventHandler } from 'react';
+import { Color } from '../../Interfaces/Color';
+import './FreeSelector.css';
 
 interface FreeSelectorProps {
   parsedColor: Color;
@@ -27,9 +27,8 @@ export const FreeSelector = (props: FreeSelectorProps) => {
             className="mocp cp-hue-indicator"
             style={{
               backgroundColor: parsedColor.hex,
-              left: (hueCoords ?? 0) + "%"
+              left: (hueCoords ?? 0) + '%'
             }}
-            title={`Hue Coords: ${hueCoords}`}
           />
 
         </div>
@@ -39,17 +38,17 @@ export const FreeSelector = (props: FreeSelectorProps) => {
         <div
 
           className="mocp cp-saturation"
+          onClick={onSaturationChange}
           style={{
             backgroundColor: `hsl(${parsedColor.hsv.h}, 100%, 50%)`
           }}
-          onClick={onSaturationChange}
         >
           <div
             className="mocp cp-saturation-indicator"
             style={{
               backgroundColor: parsedColor.hex,
-              left: (satCoords?.[0] ?? 0) + "%",
-              top: (satCoords?.[1] ?? 0) + "%"
+              left: (satCoords?.[0] ?? 0) + '%',
+              top: (satCoords?.[1] ?? 0) + '%'
             }}
           />
         </div>

@@ -1,47 +1,52 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from 'react';
 import {
   clamp,
   DEFAULT_COLOR,
   DEFAULT_COLORS,
   getHueCoordinates,
   getSaturationCoordinates,
-  hsvToRgb,
+  hexToRgb,
+  isValidHexaCode,
   parseColor,
-  rgbToHex
-} from "../Utils";
-import "./ColorPicker.css";
-import { FreeSelector, PredefinedSelector } from "./Options";
+  rgbToHsv
+} from '../Utils';
+import './ColorPicker.css';
+import { FreeSelector, PredefinedSelector } from './Options';
+import { ColorHSV } from '../Interfaces/Color';
 
 export enum ColorPickerVariant {
-  Predefined = "predefined",
-  Free = "free"
+  Predefined = 'predefined',
+  Free = 'free'
 }
 
 interface ColorPickerProps {
   color: string;
   colors: Array<string>;
-  onChange(color: string): void;
+  onChange(hsv: ColorHSV): void;
   variant: ColorPickerVariant;
+  hsv: ColorHSV
 }
 
 export const ColorPicker = (props: ColorPickerProps) => {
-  const { color, colors, onChange, variant } = props;
+  const { color, colors, onChange, variant, hsv } = props;
 
-  const parsedColor = useMemo(() => parseColor(color), [color]);
-  const satCoords = useMemo(() => getSaturationCoordinates(parsedColor), [
-    parsedColor
+  const parsedColor = useMemo(() => parseColor(hsv), [hsv]);
+  const satCoords = useMemo(() => getSaturationCoordinates(hsv), [
+    hsv
   ]);
-  const hueCoords = useMemo(() => getHueCoordinates(parsedColor), [
-    parsedColor
+  const hueCoords = useMemo(() => getHueCoordinates(hsv), [
+    hsv
   ]);
 
   const handleHexChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       let val = event.target.value;
-      if (val?.slice(0, 1) !== "#") {
-        val = "#" + val;
+      if (val?.slice(0, 1) !== '#') {
+        val = '#' + val;
       }
-      onChange(val);
+      if(isValidHexaCode(val)){
+      onChange(rgbToHsv(hexToRgb(val)));
+      }
     },
     [onChange]
   );
@@ -63,14 +68,14 @@ export const ColorPicker = (props: ColorPickerProps) => {
       const { r, g, b } = parsedColor.rgb;
 
       switch (component) {
-        case "r":
-          onChange(rgbToHex({ r: parseInt(value) || 0, g, b }));
+        case 'r':
+          onChange(rgbToHsv({ r: parseInt(value) || 0, g, b }));
           return;
-        case "g":
-          onChange(rgbToHex({ r, g: parseInt(value) || 0, b }));
+        case 'g':
+          onChange(rgbToHsv({ r, g: parseInt(value) || 0, b }));
           return;
-        case "b":
-          onChange(rgbToHex({ r, g, b: parseInt(value) || 0 }));
+        case 'b':
+          onChange(rgbToHsv({ r, g, b: parseInt(value) || 0 }));
           return;
         default:
           return;
@@ -91,9 +96,8 @@ export const ColorPicker = (props: ColorPickerProps) => {
       const s = (x / width) * 100;
       const v = 100 - (y / height) * 100;
 
-      const rgb = hsvToRgb({ h: parsedColor?.hsv.h, s, v });
-
-      onChange(rgbToHex(rgb));
+      //const rgb = hsvToRgb({ h: parsedColor?.hsv.h, s, v });
+      onChange({ h: parsedColor?.hsv.h, s, v });
     },
     [parsedColor, onChange]
   );
@@ -105,15 +109,16 @@ export const ColorPicker = (props: ColorPickerProps) => {
       const h = Math.round((x / width) * 360);
 
       const hsv = { h, s: parsedColor?.hsv.s, v: parsedColor?.hsv.v };
-      const rgb = hsvToRgb(hsv);
-
-      onChange(rgbToHex(rgb));
+      //const rgb = hsvToRgb(hsv);
+      onChange(hsv);
     },
     [parsedColor, onChange]
   );
 
-
- 
+  const predefinedSelect = (color: string) => {
+    const hsv = rgbToHsv(hexToRgb(color));
+    onChange(hsv);
+  };
 
 
   return (
@@ -121,16 +126,16 @@ export const ColorPicker = (props: ColorPickerProps) => {
       {variant === ColorPickerVariant.Predefined ? (
         <PredefinedSelector
           colors={colors}
+          onSelect={predefinedSelect}
           parsedColor={parsedColor}
-          onSelect={onChange}
         />
       ) : (
         <FreeSelector
+          hueCoords={hueCoords}
+          onHueChange={handleHueChange}
+          onSaturationChange={handleSaturationChange}
           parsedColor={parsedColor}
           satCoords={satCoords}
-          hueCoords={hueCoords}
-          onSaturationChange={handleSaturationChange}
-          onHueChange={handleHueChange}
         />
       )}
 
@@ -144,16 +149,16 @@ export const ColorPicker = (props: ColorPickerProps) => {
               background: color
             }}
           />
-          <div>
+          <div key={parsedColor?.hex}>
             <label className="mocp cp-input-label" htmlFor="cp-input-hex">
               Hex
             </label>
             <input
-              id="cp-input-hex"
               className="mocp cp-hex-input"
-              placeholder="Hex"
-              value={parsedColor?.hex}
+              defaultValue={parsedColor?.hex}
+              id="cp-input-hex"
               onChange={handleHexChange}
+              placeholder="Hex"
             />
           </div>
         </div>
@@ -164,13 +169,13 @@ export const ColorPicker = (props: ColorPickerProps) => {
               R
             </label>
             <input
-              id="cp-input-r"
               className="mocp cp-rgb-input"
+              id="cp-input-r"
+              inputMode="numeric"
+              onChange={(event) => handleRgbChange('r', event.target.value)}
+              pattern="[0-9]*"
               placeholder="R"
               value={parsedColor.rgb.r}
-              onChange={(event) => handleRgbChange("r", event.target.value)}
-              inputMode="numeric"
-              pattern="[0-9]*"
             />
           </div>
           <div>
@@ -178,13 +183,13 @@ export const ColorPicker = (props: ColorPickerProps) => {
               G
             </label>
             <input
-              id="cp-input-g"
               className="mocp cp-rgb-input"
+              id="cp-input-g"
+              inputMode="numeric"
+              onChange={(event) => handleRgbChange('g', event.target.value)}
+              pattern="[0-9]*"
               placeholder="G"
               value={parsedColor.rgb.g}
-              onChange={(event) => handleRgbChange("g", event.target.value)}
-              inputMode="numeric"
-              pattern="[0-9]*"
             />
           </div>
           <div>
@@ -192,13 +197,13 @@ export const ColorPicker = (props: ColorPickerProps) => {
               B
             </label>
             <input
-              id="cp-input-b"
               className="mocp cp-rgb-input"
+              id="cp-input-b"
+              inputMode="numeric"
+              onChange={(event) => handleRgbChange('b', event.target.value)}
+              pattern="[0-9]*"
               placeholder="B"
               value={parsedColor.rgb.b}
-              onChange={(event) => handleRgbChange("b", event.target.value)}
-              inputMode="numeric"
-              pattern="[0-9]*"
             />
           </div>
         </div>

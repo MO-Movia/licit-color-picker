@@ -1,6 +1,6 @@
-import React from "react";
-import { Color } from "../../Interfaces/Color";
-import "./PredefinedSelector.css";
+import React from 'react';
+import { Color } from '../../Interfaces/Color';
+import './PredefinedSelector.css';
 
 const predefinedRows = 3;
 
@@ -17,17 +17,17 @@ export const PredefinedSelector = (props: PredefinedSelectorProps) => {
     <div
       className="mocp cp-predefined-root"
       style={{
-        height: 2 + 35 * predefinedRows + "px",
-        width: 16 + 35 * Math.ceil(colors.length / predefinedRows) + "px"
+        height: 2 + 35 * predefinedRows + 'px',
+        width: 16 + 35 * Math.ceil(colors.length / predefinedRows) + 'px'
       }}
     >
       {colors.map((color) => (
         <button
           className="mocp cp-color-button"
           key={color}
-          onClick={(event) => onSelect(color)}
+          onClick={() => onSelect(color)}
           style={{
-            border: color === parsedColor?.hex ? "1px solid #000000" : "none"
+            border: color === parsedColor?.hex ? '1px solid #000000' : 'none'
           }}
         >
           <div

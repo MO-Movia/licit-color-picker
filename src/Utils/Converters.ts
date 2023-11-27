@@ -1,34 +1,34 @@
-import { ColorHSV, ColorRGB } from "../Interfaces/Color";
+import { ColorHSV, ColorRGB } from '../Interfaces/Color';
 
 export function rgbToHex(color: ColorRGB): string {
-  var { r, g, b } = color;
-  var hexR = r.toString(16);
-  var hexG = g.toString(16);
-  var hexB = b.toString(16);
+  const { r, g, b } = color;
+  let hexR = r.toString(16);
+  let hexG = g.toString(16);
+  let hexB = b.toString(16);
 
-  if (hexR.length === 1) hexR = "0" + hexR;
-  if (hexG.length === 1) hexG = "0" + hexG;
-  if (hexB.length === 1) hexB = "0" + hexB;
+  if (hexR.length === 1) hexR = '0' + hexR;
+  if (hexG.length === 1) hexG = '0' + hexG;
+  if (hexB.length === 1) hexB = '0' + hexB;
 
-  return "#" + hexR + hexG + hexB;
+  return '#' + hexR + hexG + hexB;
 }
 
 export function hexToRgb(color: string): ColorRGB {
-  var r = 0;
-  var g = 0;
-  var b = 0;
+  let r = 0;
+  let g = 0;
+  let b = 0;
 
   // 3 digits
   if (color.length === 4) {
-    r = Number("0x" + color[1] + color[1]);
-    g = Number("0x" + color[2] + color[2]);
-    b = Number("0x" + color[3] + color[3]);
+    r = Number('0x' + color[1] + color[1]);
+    g = Number('0x' + color[2] + color[2]);
+    b = Number('0x' + color[3] + color[3]);
 
     // 6 digits
   } else if (color.length === 7) {
-    r = Number("0x" + color[1] + color[2]);
-    g = Number("0x" + color[3] + color[4]);
-    b = Number("0x" + color[5] + color[6]);
+    r = Number('0x' + color[1] + color[2]);
+    g = Number('0x' + color[3] + color[4]);
+    b = Number('0x' + color[5] + color[6]);
   }
 
   return {
@@ -39,7 +39,7 @@ export function hexToRgb(color: string): ColorRGB {
 }
 
 export function rgbToHsv(color: ColorRGB): ColorHSV {
-  var { r, g, b } = color;
+  let { r, g, b } = color;
   r /= 255;
   g /= 255;
   b /= 255;
@@ -61,7 +61,7 @@ export function rgbToHsv(color: ColorRGB): ColorHSV {
 }
 
 export function hsvToRgb(color: ColorHSV): ColorRGB {
-  var { h, s, v } = color;
+  let { h, s, v } = color;
   s /= 100;
   v /= 100;
 

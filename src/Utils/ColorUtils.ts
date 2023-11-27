@@ -1,5 +1,5 @@
-import { Color, ColorRGB } from "../Interfaces/Color";
-import { hexToRgb, rgbToHex, rgbToHsv } from "./Converters";
+import { Color, ColorHSV, ColorRGB } from '../Interfaces/Color';
+import { hsvToRgb, rgbToHex } from './Converters';
 
 export function getRgb(color: string): ColorRGB {
   const matches = /rgb\((\d+),\s?(\d+),\s?(\d+)\)/i.exec(color);
@@ -10,42 +10,23 @@ export function getRgb(color: string): ColorRGB {
   return {
     r,
     g,
-    b
+    b,
   };
 }
 
-export function parseColor(color: string): Color {
-  var hex = "";
-  var rgb = {
-    r: 0,
-    g: 0,
-    b: 0
-  };
-  var hsv = {
-    h: 0,
-    s: 0,
-    v: 0
-  };
-
-  if (color.slice(0, 1) === "#") {
-    hex = color;
-    rgb = hexToRgb(hex);
-    hsv = rgbToHsv(rgb);
-  } else if (color.slice(0, 3) === "rgb") {
-    rgb = getRgb(color);
-    hex = rgbToHex(rgb);
-    hsv = rgbToHsv(rgb);
-  }
+export function parseColor(hsv: ColorHSV): Color {
+  const rgb = hsvToRgb(hsv);
+  const hex = rgbToHex(rgb);
 
   return {
     hex,
     rgb,
-    hsv
+    hsv,
   };
 }
 
-export function getSaturationCoordinates(color: Color): [number, number] {
-  const { s, v } = rgbToHsv(color.rgb);
+export function getSaturationCoordinates(hsv: ColorHSV): [number, number] {
+  const { s, v } = hsv;
 
   const x = s;
   const y = 100 - v;
@@ -53,8 +34,8 @@ export function getSaturationCoordinates(color: Color): [number, number] {
   return [x, y];
 }
 
-export function getHueCoordinates(color: Color): number {
-  const { h } = color.hsv;
+export function getHueCoordinates(hsv: ColorHSV): number {
+  const { h } = hsv;
 
   const x = (h / 360) * 100;
 
@@ -70,4 +51,9 @@ export function clamp(number: number, min: number, max: number): number {
     return max;
   }
   return number;
+}
+
+export function isValidHexaCode(value: string): boolean {
+  const Reg_Exp = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i;
+  return Reg_Exp.test(value);
 }
