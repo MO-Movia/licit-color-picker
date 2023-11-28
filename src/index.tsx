@@ -9,7 +9,7 @@ const root = document.getElementById('root'); // Get the root element
 if (root) {
   const app = (
     <React.StrictMode>
-      <ColorEditor close={(color:any) => {}} />
+      <ColorEditor close={(color: string) => { console.log(color);}} />
     </React.StrictMode>
   );
 

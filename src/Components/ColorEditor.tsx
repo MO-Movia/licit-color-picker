@@ -310,7 +310,7 @@ class ColorEditor extends React.PureComponent<any, any>{
 
   async componentDidMount() {
     try {
-      const response = await this._getRecentColors();
+      //const response = await this._getRecentColors();
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -405,10 +405,8 @@ class ColorEditor extends React.PureComponent<any, any>{
   }
 
   _renderColor = (color: Color, index: number): React.ReactElement => {
-    const selectedColor = this.props.hex;
     const hex = color.hex().toLowerCase();
     const style = { backgroundColor: hex };
-    const active = selectedColor && selectedColor.toLowerCase() === hex;
     return (
       <button
         className="mocp czi-color-editor-cell"
@@ -454,7 +452,7 @@ class ColorEditor extends React.PureComponent<any, any>{
 
 
   _saveRecentColor = async (col: MoreColor): Promise<void> => {
-    let _col: MoreColor;
+   // let _col: MoreColor;
     if (this.props.runtime) {
       const runtime = this.props.runtime;
       const { saveRecentColor } = runtime;
@@ -469,7 +467,7 @@ class ColorEditor extends React.PureComponent<any, any>{
           const sortedArray = this._recentColorList.slice().sort((a: MoreColor, b: MoreColor) => b.id - a.id);
           this._recentColorList = sortedArray.slice(0, 10);
         }
-        _col = await saveRecentColor(this._recentColorList);
+       // _col = await saveRecentColor(this._recentColorList);
       }
     }
     this._onSuccess(col);

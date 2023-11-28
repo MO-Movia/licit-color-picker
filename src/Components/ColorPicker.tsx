@@ -216,7 +216,6 @@ export const ColorPicker = (props: ColorPickerProps) => {
 ColorPicker.defaultProps = {
   color: DEFAULT_COLOR,
   colors: DEFAULT_COLORS,
-  onChange: (color: string) => { },
   variant: ColorPickerVariant.Predefined
 };
 

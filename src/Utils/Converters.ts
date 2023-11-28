@@ -62,6 +62,7 @@ export function rgbToHsv(color: ColorRGB): ColorHSV {
 
 export function hsvToRgb(color: ColorHSV): ColorRGB {
   let { h, s, v } = color;
+  h /= 1;
   s /= 100;
   v /= 100;
 
