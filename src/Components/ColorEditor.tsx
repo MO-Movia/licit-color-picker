@@ -170,6 +170,7 @@ class ColorEditor extends React.PureComponent<any, any>{
     close: (string) => void;
     hex?: string;
     runtime?: any;
+    Textcolor?:any;
   };
 
   _recentColorList: MoreColor[];
@@ -182,7 +183,8 @@ class ColorEditor extends React.PureComponent<any, any>{
     const colorButtons = colorData.shades.map((shade, shadeIndex) => {
       const style = {
         backgroundColor: shade.value,
-        border: shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none'
+        border:shade.value == this.props?.Textcolor ? '1px solid #000000' : 'none'
+       // border: shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none'
       };
 
       if (TypeName == 'Custom') {
@@ -270,7 +272,7 @@ class ColorEditor extends React.PureComponent<any, any>{
     const colorButtons = recentColors.map((shade) => {
       const style = {
         backgroundColor: shade.color,
-        border: shade.color === '#ffffff' ? '1px solid #eeeff1' : 'none'
+        border:shade.value == this.props?.Textcolor ? '1px solid #000000' : 'none'
       };
       return (
         <td
@@ -310,7 +312,8 @@ class ColorEditor extends React.PureComponent<any, any>{
 
   async componentDidMount() {
     try {
-      //const response = await this._getRecentColors();
+      const response = await this._getRecentColors();
+      console.log(response);
 
     } catch (error) {
       console.error('Error fetching data:', error);

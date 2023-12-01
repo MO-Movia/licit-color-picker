@@ -54,7 +54,8 @@ module.exports = {
     requestAnimationFrame: false,
     window: false,
     CSSStyleDeclaration: false,
-    HTMLInputElement: false
+    HTMLInputElement: false,
+    console: false
   },
   overrides: [
     {
