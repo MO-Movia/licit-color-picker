@@ -183,8 +183,8 @@ class ColorEditor extends React.PureComponent<any, any>{
     const colorButtons = colorData.shades.map((shade, shadeIndex) => {
       const style = {
         backgroundColor: shade.value,
-        border:shade.value == this.props?.Textcolor ? '1px solid #000000' : 'none'
-       // border: shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none'
+        border: shade.value === this.props?.Textcolor ? '1px solid #000000' :
+        shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none'
       };
 
       if (TypeName == 'Custom') {
@@ -272,7 +272,8 @@ class ColorEditor extends React.PureComponent<any, any>{
     const colorButtons = recentColors.map((shade) => {
       const style = {
         backgroundColor: shade.color,
-        border:shade.value == this.props?.Textcolor ? '1px solid #000000' : 'none'
+        border: shade.value === this.props?.Textcolor ? '1px solid #000000' :
+        shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none'
       };
       return (
         <td
