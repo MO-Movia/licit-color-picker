@@ -4,6 +4,7 @@ import './czi-color-editor.css';
 import ColorPicker, { ColorPickerVariant } from './ColorPicker';
 import { ColorHSV, MoreColor } from '../Interfaces/Color';
 import { hexToRgb, hsvToRgb, rgbToHex, rgbToHsv } from '../Utils';
+import preventEventDefault from './preventEventDefault';
 
 
 const HeaderColors = {
@@ -170,7 +171,7 @@ class ColorEditor extends React.PureComponent<any, any>{
     close: (string) => void;
     hex?: string;
     runtime?: any;
-    Textcolor?:any;
+    Textcolor?: any;
   };
 
   _recentColorList: MoreColor[];
@@ -184,7 +185,7 @@ class ColorEditor extends React.PureComponent<any, any>{
       const style = {
         backgroundColor: shade.value,
         border: shade.value === this.props?.Textcolor ? '1px solid #000000' :
-        shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none'
+          shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none'
       };
 
       if (TypeName == 'Custom') {
@@ -272,8 +273,7 @@ class ColorEditor extends React.PureComponent<any, any>{
     const colorButtons = recentColors.map((shade) => {
       const style = {
         backgroundColor: shade.color,
-        border: shade.value === this.props?.Textcolor ? '1px solid #000000' :
-        shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none'
+        border: shade.value === this.props?.Textcolor ? '1px solid #000000' : 'none'
       };
       return (
         <td
@@ -362,7 +362,12 @@ class ColorEditor extends React.PureComponent<any, any>{
 
 
             <div className="mocp czi-color-editor-section czi-color-more">
-              <div className="mocp czi-color-editor-color-transparent" onClick={() => this.setState({ showFirst: false })}>
+              <div className="mocp czi-color-editor-color-transparent"
+                onClick={() => this.setState({ showFirst: false })}
+                onMouseDown={preventEventDefault}
+                onMouseEnter={preventEventDefault}
+                onMouseUp={preventEventDefault}
+                >
                 More Colors...
               </div>
             </div>
@@ -430,7 +435,7 @@ class ColorEditor extends React.PureComponent<any, any>{
 
   };
 
-  _onRemoverecent = (event: any,id: null): void => {
+  _onRemoverecent = (event: any, id: null): void => {
 
     if (this.props.runtime) {
       const runtime = this.props.runtime;
@@ -456,7 +461,7 @@ class ColorEditor extends React.PureComponent<any, any>{
 
 
   _saveRecentColor = async (col: MoreColor): Promise<void> => {
-   // let _col: MoreColor;
+    let _col: MoreColor;
     if (this.props.runtime) {
       const runtime = this.props.runtime;
       const { saveRecentColor } = runtime;
@@ -471,7 +476,8 @@ class ColorEditor extends React.PureComponent<any, any>{
           const sortedArray = this._recentColorList.slice().sort((a: MoreColor, b: MoreColor) => b.id - a.id);
           this._recentColorList = sortedArray.slice(0, 10);
         }
-       // _col = await saveRecentColor(this._recentColorList);
+        _col = await saveRecentColor(this._recentColorList);
+        console.log(_col);
       }
     }
     this._onSuccess(col);
