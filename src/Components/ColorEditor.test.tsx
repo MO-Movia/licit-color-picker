@@ -3,8 +3,6 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ColorEditor from './ColorEditor';
 
-import Color from 'color';
-
 describe('ColorEditor Component', () => {
     const customColors = {
         'colors': [
@@ -128,14 +126,11 @@ describe('ColorEditor Component', () => {
         ]
     };
     const props = {
-        close: (string) => { },
         hex: 'hex',
-        runtime: {saveRecentColor:()=>{}}
-        // runtime: '',
     };
     const colorEditor = new ColorEditor(props);
 
-    xit('renders ColorEditor correctly', () => {
+    it('renders ColorEditor correctly', () => {
         const closeMock = jest.fn();
         const { getByText } = render(<ColorEditor close={closeMock} />);
 
@@ -170,7 +165,6 @@ describe('ColorEditor Component', () => {
     // Add more tests as needed
     it('handle ColorEditor', () => {
         const props = {
-            close: (string) => { },
             hex: 'hex',
             runtime: '',
         };
@@ -181,7 +175,6 @@ describe('ColorEditor Component', () => {
 
     it('should render custom colors', () => {
         const props = {
-            close: (string) => { },
             hex: 'hex',
             runtime: '',
         };
@@ -190,7 +183,6 @@ describe('ColorEditor Component', () => {
     });
     it('should render custom colors when custom, color is not in arrlist', () => {
         const props = {
-            close: (string) => { },
             hex: 'hex',
             runtime: '',
         };
@@ -199,7 +191,6 @@ describe('ColorEditor Component', () => {
     });
     it('should render custom colors', () => {
         const props = {
-            close: (string) => { },
             hex: 'hex',
             runtime: '',
         };
@@ -208,7 +199,6 @@ describe('ColorEditor Component', () => {
     });
     it('should render custom colors', () => {
         const props = {
-            close: (string) => { },
             hex: 'hex',
             runtime: '',
         };
@@ -252,10 +242,9 @@ const Runtime = {
     saveRecentColor : jest.fn().mockReturnValue(Promise.resolve())
   };
   const saveColorProps = {
-    close: (string) => { },
+    close: () => {console.log('Close method called');},
     hex: 'hex',
     runtime:Runtime
-
 };
   const colorEditor = new ColorEditor(saveColorProps);
   it('should save recent color and call onSuccess', async () => {
