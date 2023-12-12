@@ -194,6 +194,9 @@ class ColorEditor extends React.PureComponent<any, any>{
             className="mocp czi-color-editor-cell"
             key={`custom-color-${shadeIndex}`}
             onClick={() => this._onSelectColor(shade.value)}
+            onMouseDown={preventEventDefault}
+            onMouseEnter={preventEventDefault}
+            onMouseUp={preventEventDefault}
             style={style}
           ></td></tr>
         );
@@ -204,6 +207,9 @@ class ColorEditor extends React.PureComponent<any, any>{
             className="mocp czi-color-editor-cell"
             key={`custom-color-${shadeIndex}`}
             onClick={() => this._onSelectColor(shade.value)}
+            onMouseDown={preventEventDefault}
+            onMouseEnter={preventEventDefault}
+            onMouseUp={preventEventDefault}
             style={style}
           ></td>
         );
@@ -281,6 +287,9 @@ class ColorEditor extends React.PureComponent<any, any>{
           className="mocp czi-color-editor-cell"
           key={`custom-color-${shade.id}`}
           onClick={() => this._onSelectColor(shade.color)}
+          onMouseDown={preventEventDefault}
+          onMouseEnter={preventEventDefault}
+          onMouseUp={preventEventDefault}
           style={style}
 
         >
@@ -308,7 +317,7 @@ class ColorEditor extends React.PureComponent<any, any>{
       color: defaultColor,
       showFirst: true,
       recentColors: [],
-      hsv: rgbToHsv(hexToRgb(defaultColor))
+      hsv: rgbToHsv(hexToRgb(defaultColor)),
     };
   }
 
@@ -377,10 +386,9 @@ class ColorEditor extends React.PureComponent<any, any>{
         }
 
 
-
-        {!showFirst &&
-          <div className="mocp modal">
-            <div className="mocp modal-content">
+{!showFirst &&
+          <div className="mocp-modal">
+            <div className="mocp-modal-content">
               <ColorPicker
                 color={color}
                 hsv={hsv}
@@ -422,6 +430,9 @@ class ColorEditor extends React.PureComponent<any, any>{
         className="mocp czi-color-editor-cell"
         key={`${hex}-${index}`}
         onClick={() => this._onSelectColor(hex)}
+        onMouseDown={preventEventDefault}
+        onMouseEnter={preventEventDefault}
+        onMouseUp={preventEventDefault}
         style={style}
         value={hex}
       />
