@@ -1,6 +1,6 @@
 @import url("./czi-vars.css");
 
-.czi-color-editor {
+.mcp-color-editor {
   background: #fff;
   box-shadow: var(--czi-overlay-shadow);
   font-family: var(--czi-font-family);
@@ -10,7 +10,7 @@
   text-align: justify;
 }
 
-.czi-color-editor .czi-custom-button {
+.mcp-color-editor .mcp-custom-button {
   border-color: #fff;
   border-style: solid;
   border-width: 1px;
@@ -21,19 +21,19 @@
   padding: 0;
   width: 18px;
 }
-.czi-color-head{
+.mcp-color-head{
  font-size: 15px;
  text-align: center;
 
 }
-.czi-color-more{
+.mcp-color-more{
   font-size: 15px;
   text-align: center;
   cursor: pointer;
 
 }
 
-.czi-color-editor .czi-custom-button.czi-color-editor-color-transparent {
+.mcp-color-editor .mcp-custom-button.mcp-color-editor-color-transparent {
   box-sizing: border-box;
   display: block;
   height: auto;
@@ -43,22 +43,22 @@
   width: auto;
 }
 
-.czi-color-editor .czi-custom-button.czi-color-editor-color-transparent:hover {
+.mcp-color-editor .mcp-custom-button.mcp-color-editor-color-transparent:hover {
   background-color: var(--czi-button-hover-background-color);
 }
 
-.czi-color-editor .czi-custom-button.active,
-.czi-color-editor .czi-custom-button:hover {
+.mcp-color-editor .mcp-custom-button.active,
+.mcp-color-editor .mcp-custom-button:hover {
   font-weight: normal;
   outline: solid 1px #000;
 }
 
-.czi-color-editor-section {
+.mcp-color-editor-section {
   margin: 8px 0;
   width: 204px;
 }
 
-.czi-color-editor-section .czi-color-editor-cell {
+.mcp-color-editor-section .mcp-color-editor-cell {
   width:20px;
   height: 20px;
   line-height: 28px;
@@ -70,7 +70,7 @@
   border: none;
   margin-right: 6px;
 }
-.czi-color-recent{
+.mcp-color-recent{
   height:40px;
 }
 
@@ -82,8 +82,6 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
     padding-top: 60px;
   }
   

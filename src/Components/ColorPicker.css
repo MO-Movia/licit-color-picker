@@ -56,7 +56,7 @@ input {
 
 
 
-.close-button {
+.cp-close-button {
   position: relative;
   top: -8px;
   left: 11px;
@@ -69,12 +69,12 @@ input {
   border: 1px solid #000;
 }
 
-.close-button-x {
+.cp-close-button-x {
   position: absolute;
   bottom: -1.5px;
   left: 1.5px;
 }
 
-.czi-color-editor-cell:hover .close-button {
+.mcp-color-editor-cell:hover .cp-close-button {
   display: block;
 }

@@ -191,7 +191,7 @@ class ColorEditor extends React.PureComponent<any, any>{
       if (TypeName == 'Custom') {
         return (
           <tr><td
-            className="mocp czi-color-editor-cell"
+            className="mocp mcp-color-editor-cell"
             key={`custom-color-${shadeIndex}`}
             onClick={() => this._onSelectColor(shade.value)}
             onMouseDown={preventEventDefault}
@@ -204,7 +204,7 @@ class ColorEditor extends React.PureComponent<any, any>{
       else {
         return (
           <td
-            className="mocp czi-color-editor-cell"
+            className="mocp mcp-color-editor-cell"
             key={`custom-color-${shadeIndex}`}
             onClick={() => this._onSelectColor(shade.value)}
             onMouseDown={preventEventDefault}
@@ -220,14 +220,14 @@ class ColorEditor extends React.PureComponent<any, any>{
     });
     if (TypeName == 'Custom') {
       return (
-        <tr><td className="mocp czi-color-editor-column">
+        <tr><td className="mocp mcp-color-editor-column">
           {colorButtons}
         </td></tr>
       );
     }
     else {
       return (
-        <tr className="mocp czi-color-editor-column">
+        <tr className="mocp mcp-color-editor-column">
           {colorButtons}
         </tr>
       );
@@ -284,7 +284,7 @@ class ColorEditor extends React.PureComponent<any, any>{
       };
       return (
         <td
-          className="mocp czi-color-editor-cell"
+          className="mocp mcp-color-editor-cell"
           key={`custom-color-${shade.id}`}
           onClick={() => this._onSelectColor(shade.color)}
           onMouseDown={preventEventDefault}
@@ -293,15 +293,15 @@ class ColorEditor extends React.PureComponent<any, any>{
           style={style}
 
         >
-          <div className="mocp close-button-container">
-            <div className="mocp close-button" onClick={(event) => this._onRemoverecent(event, shade.id)}><span className="close-button-x" >x</span></div>
+          <div className="mocp cp-close-button-container">
+            <div className="mocp cp-close-button" onClick={(event) => this._onRemoverecent(event, shade.id)}><span className="cp-close-button-x" >x</span></div>
           </div>
         </td>
       );
     });
 
     return (
-      <tr className="mocp czi-color-editor-column">
+      <tr className="mocp mcp-color-editor-column">
         {colorButtons}
       </tr>
     );
@@ -342,12 +342,12 @@ class ColorEditor extends React.PureComponent<any, any>{
 
 
     return (
-      <div className="mocp czi-color-editor">
+      <div className="mocp mcp-color-editor">
 
         {showFirst &&
           <div >
-            <div className="mocp czi-color-editor-section">
-              <div className="mocp czi-color-editor-color-transparent czi-color-head">
+            <div className="mocp mcp-color-editor-section">
+              <div className="mocp mcp-color-editor-color-transparent mcp-color-head">
                 Select Color
               </div>
             </div>
@@ -360,19 +360,19 @@ class ColorEditor extends React.PureComponent<any, any>{
             </div>
 
             <hr className="mocp"></hr>
-            <div className="mocp czi-color-editor-section czi-color-head">
-              <div className="mocp czi-color-editor-color-transparent">
+            <div className="mocp mcp-color-editor-section mcp-color-head">
+              <div className="mocp mcp-color-editor-color-transparent">
                 Recent Colors
               </div>
             </div>
-            <div className="mocp czi-color-recent">
+            <div className="mocp mcp-color-recent">
               {this.renderRecentColors()}
             </div>
             <hr className="mocp"></hr>
 
 
-            <div className="mocp czi-color-editor-section czi-color-more">
-              <div className="mocp czi-color-editor-color-transparent"
+            <div className="mocp mcp-color-editor-section mcp-color-more">
+              <div className="mocp mcp-color-editor-color-transparent"
                 onClick={() => this.setState({ showFirst: false })}
                 onMouseDown={preventEventDefault}
                 onMouseEnter={preventEventDefault}
@@ -427,7 +427,7 @@ class ColorEditor extends React.PureComponent<any, any>{
     const style = { backgroundColor: hex };
     return (
       <button
-        className="mocp czi-color-editor-cell"
+        className="mocp mcp-color-editor-cell"
         key={`${hex}-${index}`}
         onClick={() => this._onSelectColor(hex)}
         onMouseDown={preventEventDefault}
