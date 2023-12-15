@@ -184,8 +184,14 @@ class ColorEditor extends React.PureComponent<any, any>{
     const colorButtons = colorData.shades.map((shade, shadeIndex) => {
       const style = {
         backgroundColor: shade.value,
-        border:  shade.value === '#ffffff' ? '1px solid #eeeff1' : 'none',
-        boxShadow:  shade.value === this.props?.Textcolor  ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000':'none',
+        border: shade.value === '#ffffff'
+          ? '0.1px solid #eeeff1'
+          : shade.value === '#7030a0'
+          ? '0.1px solid #7030a0'
+          : 'none',
+        boxShadow: shade.value === this.props?.Textcolor
+          ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
+          : 'none',
       };
 
       if (TypeName == 'Custom') {
@@ -235,23 +241,99 @@ class ColorEditor extends React.PureComponent<any, any>{
 
   }
 
+  renderCustomColorsHeader(colorName, arrList, TypeName) {
+    const colorData = arrList.colors.find((color) => color.name === colorName);
+    if (!colorData) {
+      return null;
+    }
+    const colorButtons = colorData.shades.map((shade, shadeIndex) => {
+      const style = {
+        backgroundColor: shade.value,
+        border: shade.value === '#ffffff'
+          ? '0.1px solid #eeeff1'
+          : 'none',
+          marginLeft: shade.value === '#ff0000'
+          ? '2px'
+          : shade.value === '#000000'
+          ? '2px'
+          : '3px',
+        boxShadow: shade.value === this.props?.Textcolor
+          ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
+          : 'none',
+      };
+
+      if (TypeName == 'Custom') {
+        return (
+          <div
+            className="mocp mcp-color-editor-cell mcp-inner"
+            key={`custom-color-${shadeIndex}`}
+            onClick={() => this._onSelectColor(shade.value)}
+            onMouseDown={preventEventDefault}
+            onMouseEnter={preventEventDefault}
+            onMouseUp={preventEventDefault}
+            style={style}
+          ></div>
+        );
+      }
+      else {
+        return (
+          <div
+            className="mocp mcp-color-editor-cell mcp-inner"
+            key={`custom-color-${shadeIndex}`}
+            onClick={() => this._onSelectColor(shade.value)}
+            onMouseDown={preventEventDefault}
+            onMouseEnter={preventEventDefault}
+            onMouseUp={preventEventDefault}
+            style={style}
+          ></div>
+        );
+      }
+
+
+
+    });
+    if (TypeName == 'Custom') {
+      return (
+        <div className="mocp mcp-color-editor-column mcp-containerHead">
+          {colorButtons}
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="mocp mcp-color-editor-column mcp-containerHead">
+          {colorButtons}
+        </div>
+      );
+    }
+
+  }
+
   renderCustomColorsTable = () => {
     return colorNames.map((colorName, index) => (
-      <table className={`${index === 0 ? 'mocp customFirstColorTable' : 'mocp customColorTable'}`} key={colorName}>
-        <tbody>{this.renderCustomColors(colorName, customColors, 'Custom')}</tbody>
-      </table>
+      <table
+  className={`${
+    index === 0
+      ? 'mocp customFirstColorTable'
+      : colorName === 'Purple'
+      ? 'mocp customColorTable purpleTable'
+      : 'mocp customColorTable'
+  }`}
+  key={colorName}
+>
+  <tbody>{this.renderCustomColors(colorName, customColors, 'Custom')}</tbody>
+</table>
     ));
   };
 
 
+
   renderHeaderColorsTable = () => {
     return headerColorNames.map((colorName) => (
-      <div className="headerColorDiv" key={colorName}>
-        <table className="mocp randomColorTable">
-          <tbody>
-            {this.renderCustomColors(colorName, HeaderColors, 'Header')}
-          </tbody>
-        </table>
+      <div key={colorName}>
+        <div className="mocp mcp-header-color">
+            {this.renderCustomColorsHeader(colorName, HeaderColors, 'Header')}
+        </div>
       </div>
     ));
   };
@@ -345,12 +427,14 @@ class ColorEditor extends React.PureComponent<any, any>{
       <div className="mocp mcp-color-editor">
 
         {showFirst &&
-          <div >
+          <div className="mocp mcp-color-editor-main-section" >
             <div className="mocp mcp-color-editor-section">
               <div className="mocp mcp-color-editor-color-transparent mcp-color-head">
                 Select Color
               </div>
             </div>
+
+
             <div className="mocp">
               {this.renderHeaderColorsTable()}
             </div>

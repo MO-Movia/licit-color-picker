@@ -24,13 +24,13 @@
 .mcp-color-head{
  font-size: 15px;
  text-align: center;
-
+ color: var(--czi-content-font-color);
 }
 .mcp-color-more{
   font-size: 15px;
   text-align: center;
   cursor: pointer;
-
+  color: var(--czi-content-font-color);
 }
 
 .mcp-color-editor .mcp-custom-button.mcp-color-editor-color-transparent {
@@ -90,14 +90,14 @@
     margin: 1% auto;
     padding: 7px;
     border: 1px solid #888;
-    width: 19.5rem;
-    height: 26.5rem;
+    width: 20.5rem;
+    height: 28.5rem;
   }
 
  
   .btn-ok {
     display: flex;
-    padding-left: 160px;
+    padding-left: 163px;
     padding-top: 6px;
 }
   
@@ -126,7 +126,7 @@
     margin-left: 2px;
   }
   .customFirstColorTable td{
-    width: 18px;
+    width: 19px;
     height: 16px;
   }
 
@@ -159,4 +159,7 @@
   .headerColorDiv{
     margin-left: 2px;
     padding-right: 0px;
+  }
+  .purpleTable{
+    margin-left: 1.4px;
   }

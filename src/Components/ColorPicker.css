@@ -3,7 +3,7 @@
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  width: 298px
+  width: 313px
 }
 
 .cp-container::-webkit-scrollbar {
@@ -46,7 +46,7 @@ input {
 }
 
 .cp-hex-input {
-  width: 60px;
+  width: 67px;
 }
 
 .cp-rgb-input {
@@ -71,10 +71,31 @@ input {
 
 .cp-close-button-x {
   position: absolute;
-  bottom: -1.5px;
-  left: 1.5px;
+  bottom: -4.5px;
+  left: 1px;
+  color: var(--czi-content-font-color);
 }
 
 .mcp-color-editor-cell:hover .cp-close-button {
   display: block;
+}
+
+.mcp-containerHead {
+  display: flex;
+  margin-left: 4px;
+  height: 12px;
+  margin-bottom: 6px;
+}
+
+.mcp-inner {
+  width: 17px;
+    height: 16px;
+  margin-left: 2px;
+
+}
+.mcp-header-color{
+  margin-bottom: 8px;
+}
+.mcp-color-editor-main-section{
+  margin-left: 10px;
 }
