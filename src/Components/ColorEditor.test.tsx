@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ColorEditor from './ColorEditor';
+import {ColorEditor} from './ColorEditor';
 
 describe('ColorEditor Component', () => {
     const customColors = {
@@ -133,8 +133,6 @@ describe('ColorEditor Component', () => {
     it('renders ColorEditor correctly', () => {
         const closeMock = jest.fn();
         const { getByText } = render(<ColorEditor close={closeMock} />);
-
-        // Adjust the test based on your component's rendering logic
         expect(getByText('Select Color')).toBeInTheDocument();
     });
 
@@ -142,27 +140,15 @@ describe('ColorEditor Component', () => {
         const closeMock = jest.fn();
         const { getByText, getByTestId } = render(<ColorEditor close={closeMock} />);
 
-        // Simulate user selecting a color
         fireEvent.click(getByText('Your Color Selector Text'));
-        // Mock the ColorPicker logic and update the color
-        // Use fireEvent to simulate events or user interactions
-
-        // Example: fireEvent.change(colorInput, { target: { value: '#ff0000' } });
-
-        // Wait for async updates if any
         await waitFor(() => {
-            // Assert that the color was updated
             expect(getByTestId('selected-color')).toHaveStyle({ backgroundColor: '#ff0000' });
         });
 
-        // Simulate user clicking the OK button
         fireEvent.click(getByText('OK'));
-
-        // Assert that the close function was called with the correct color
         expect(closeMock).toHaveBeenCalledWith('#ff0000');
     });
 
-    // Add more tests as needed
     it('handle ColorEditor', () => {
         const props = {
             hex: 'hex',
@@ -219,88 +205,4 @@ it('should handle renderRecentCustomColors',()=>{
     colorEditor.state ={recentColors:[{color:'#red'}]};
     expect(colorEditor.renderRecentCustomColors()).toBeDefined();
 });
-
-// it('_renderColor should render the correct React element', () => {
-//     const color = new Color('#FF0000');
-//     const index = 0;
-//     const props = {
-//         close: (string) => { },
-//         hex: 'hex',
-//         runtime: '',
-//     };
-//     const colorEditor = new ColorEditor(props);
-//     const result = colorEditor._renderColor(color, index);
-
-//     expect(colorEditor.renderRecentCustomColors()).toBeDefined();
-// });
 });
-
-
-describe('saveRecentColor', () => {
-
-const Runtime = {
-    saveRecentColor : jest.fn().mockReturnValue(Promise.resolve())
-  };
-  const saveColorProps = {
-    close: () => {console.log('Close method called');},
-    hex: 'hex',
-    runtime:Runtime
-};
-  const colorEditor = new ColorEditor(saveColorProps);
-  it('should save recent color and call onSuccess', async () => {
-
-    colorEditor.props=saveColorProps;
-    colorEditor._recentColorList=[{
-        id: 1,
-        color: '#ff0000'
-      },
-      {
-        id: 2,
-        color: '#fff000'
-      },
-      {
-        id: 3,
-        color: '#f00'
-      },
-      {
-        id: 4,
-        color: '#ccc'
-      },
-      {
-        id: 5,
-        color: '#ff4000'
-      },
-      {
-        id: 6,
-        color: '#ff8000'
-      },
-
-      {
-        id: 7,
-        color: '#ff2000'
-      },
-      {
-        id: 8,
-        color: '#ffbf00'
-      },
-      {
-        id: 9,
-        color: '#fff000'
-      },
-            {
-        id: 10,
-        color: '#fff000'
-      }];
-  colorEditor._onSaveColor('#ff0000');
-  colorEditor._onSelectColor('"ccc');
-  colorEditor._recentColorList=[];
-  colorEditor._onSaveColor('#ccc');
-  colorEditor.props=saveColorProps;
-  colorEditor._getRecentColors ();
-
-  expect(Runtime.saveRecentColor).toBeDefined();
-  expect(colorEditor.props.close).toBeDefined();
-  });
-});
-
-

@@ -218,5 +218,3 @@ ColorPicker.defaultProps = {
   colors: DEFAULT_COLORS,
   variant: ColorPickerVariant.Predefined
 };
-
-export default ColorPicker;

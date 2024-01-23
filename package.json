@@ -1,9 +1,11 @@
 { 
   "name": "@modusoperandi/color-picker",
   "version": "1.0.0",
+  "type": "module",
   "description": "A color picker library",
   "keywords": [],
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "style": "dist/styles.css",
   "dependencies": {
     "@testing-library/react": "^14.1.2",

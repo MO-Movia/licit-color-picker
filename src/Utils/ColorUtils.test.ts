@@ -1,4 +1,3 @@
-
 import { getRgb, parseColor, getSaturationCoordinates, getHueCoordinates, clamp, isValidHexaCode } from './ColorUtils';
 
 describe('Converters', () => {

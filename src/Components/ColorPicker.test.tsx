@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ColorPicker, { ColorPickerVariant } from './ColorPicker'; // Adjust the import path based on your project structure
+import  { ColorPicker,ColorPickerVariant } from './ColorPicker'; // Adjust the import path based on your project structure
 import { ColorHSV } from '../Interfaces/Color';
 
 // Mock the utility functions and child components

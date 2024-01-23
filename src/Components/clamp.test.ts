@@ -1,5 +1,5 @@
 // clamp.test.ts
-import clamp from './clamp';
+import {clamp} from './clamp';
 
 describe('clamp', () => {
   it('returns the value when it is within the range', () => {
@@ -26,5 +26,4 @@ describe('clamp', () => {
     expect(clamp(0.5, 0.2, 1.0)).toBe(0.5);
   });
 
-  // Add more test cases as needed
 });
