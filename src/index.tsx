@@ -1,9 +1,9 @@
-import React from "react";
-import "./index.css";
-import { ColorEditor } from "./Components/ColorEditor";
-import ReactDOM from "react-dom/client";
+import React from 'react';
+import './index.css';
+import { ColorEditor } from './Components/ColorEditor';
+import ReactDOM from 'react-dom/client';
 
-const root = document.getElementById("root"); // Get the root element
+const root = document.getElementById('root'); // Get the root element
 
 if (root) {
   const app = (

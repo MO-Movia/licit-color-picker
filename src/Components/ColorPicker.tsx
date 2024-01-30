@@ -8,7 +8,7 @@ import {
   hexToRgb,
   isValidHexaCode,
   parseColor,
-  rgbToHsv
+  rgbToHsv,
 } from '../Utils';
 import './ColorPicker.css';
 import { FreeSelector, PredefinedSelector } from './Options';
@@ -16,7 +16,7 @@ import { ColorHSV } from '../Interfaces/Color';
 
 export enum ColorPickerVariant {
   Predefined = 'predefined',
-  Free = 'free'
+  Free = 'free',
 }
 
 interface ColorPickerProps {
@@ -24,44 +24,28 @@ interface ColorPickerProps {
   colors: Array<string>;
   onChange(hsv: ColorHSV): void;
   variant: ColorPickerVariant;
-  hsv: ColorHSV
+  hsv: ColorHSV;
 }
 
 export const ColorPicker = (props: ColorPickerProps) => {
   const { color, colors, onChange, variant, hsv } = props;
 
   const parsedColor = useMemo(() => parseColor(hsv), [hsv]);
-  const satCoords = useMemo(() => getSaturationCoordinates(hsv), [
-    hsv
-  ]);
-  const hueCoords = useMemo(() => getHueCoordinates(hsv), [
-    hsv
-  ]);
+  const satCoords = useMemo(() => getSaturationCoordinates(hsv), [hsv]);
+  const hueCoords = useMemo(() => getHueCoordinates(hsv), [hsv]);
 
   const handleHexChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       let val = event.target.value;
-      if (val?.slice(0, 1) !== '#') {
+      if (!val?.startsWith('#')) {
         val = '#' + val;
       }
-      if(isValidHexaCode(val)){
-      onChange(rgbToHsv(hexToRgb(val)));
+      if (isValidHexaCode(val)) {
+        onChange(rgbToHsv(hexToRgb(val)));
       }
     },
     [onChange]
   );
-
-  // const handleHexChange = useCallback(
-  //   (event) => {
-  //     var val = event.target.value;
-  //     if (val?.slice(0, 1) !== "#") {
-  //       val = "#" + val;
-  //     }
-  //     onChange(val);
-  //   },
-  //   [onChange]
-  // );
-
 
   const handleRgbChange = useCallback(
     (component: 'r' | 'g' | 'b', value: string) => {
@@ -84,11 +68,10 @@ export const ColorPicker = (props: ColorPickerProps) => {
     [parsedColor, onChange]
   );
 
-
-
   const handleSaturationChange = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      const { width, height, left, top } = event.currentTarget.getBoundingClientRect();
+      const { width, height, left, top } =
+        event.currentTarget.getBoundingClientRect();
 
       const x = clamp(event.clientX - left, 0, width);
       const y = clamp(event.clientY - top, 0, height);
@@ -96,7 +79,6 @@ export const ColorPicker = (props: ColorPickerProps) => {
       const s = (x / width) * 100;
       const v = 100 - (y / height) * 100;
 
-      //const rgb = hsvToRgb({ h: parsedColor?.hsv.h, s, v });
       onChange({ h: parsedColor?.hsv.h, s, v });
     },
     [parsedColor, onChange]
@@ -109,7 +91,6 @@ export const ColorPicker = (props: ColorPickerProps) => {
       const h = Math.round((x / width) * 360);
 
       const hsv = { h, s: parsedColor?.hsv.s, v: parsedColor?.hsv.v };
-      //const rgb = hsvToRgb(hsv);
       onChange(hsv);
     },
     [parsedColor, onChange]
@@ -119,7 +100,6 @@ export const ColorPicker = (props: ColorPickerProps) => {
     const hsv = rgbToHsv(hexToRgb(color));
     onChange(hsv);
   };
-
 
   return (
     <div className="mocp cp-container">
@@ -139,76 +119,75 @@ export const ColorPicker = (props: ColorPickerProps) => {
         />
       )}
 
-{variant === ColorPickerVariant.Free &&
-
-      <div  className="mocp cp-input-container">
-        <div className="mocp cp-input-group">
-          <div
-            className="mocp cp-color-preview"
-            style={{
-              background: color
-            }}
-          />
-          <div key={parsedColor?.hex}>
-            <label className="mocp cp-input-label" htmlFor="cp-input-hex">
-              Hex
-            </label>
-            <input
-              className="mocp cp-hex-input"
-              defaultValue={parsedColor?.hex}
-              id="cp-input-hex"
-              onChange={handleHexChange}
-              placeholder="Hex"
+      {variant === ColorPickerVariant.Free && (
+        <div className="mocp cp-input-container">
+          <div className="mocp cp-input-group">
+            <div
+              className="mocp cp-color-preview"
+              style={{
+                background: color,
+              }}
             />
+            <div key={parsedColor?.hex}>
+              <label className="mocp cp-input-label" htmlFor="cp-input-hex">
+                Hex
+              </label>
+              <input
+                className="mocp cp-hex-input"
+                defaultValue={parsedColor?.hex}
+                id="cp-input-hex"
+                onChange={handleHexChange}
+                placeholder="Hex"
+              />
+            </div>
+          </div>
+
+          <div className="mocp cp-input-group">
+            <div>
+              <label className="mocp cp-input-label" htmlFor="cp-input-r">
+                R
+              </label>
+              <input
+                className="mocp cp-rgb-input"
+                id="cp-input-r"
+                inputMode="numeric"
+                onChange={(event) => handleRgbChange('r', event.target.value)}
+                pattern="[0-9]*"
+                placeholder="R"
+                value={parsedColor.rgb.r}
+              />
+            </div>
+            <div>
+              <label className="mocp cp-input-label" htmlFor="cp-input-g">
+                G
+              </label>
+              <input
+                className="mocp cp-rgb-input"
+                id="cp-input-g"
+                inputMode="numeric"
+                onChange={(event) => handleRgbChange('g', event.target.value)}
+                pattern="[0-9]*"
+                placeholder="G"
+                value={parsedColor.rgb.g}
+              />
+            </div>
+            <div>
+              <label className="mocp cp-input-label" htmlFor="cp-input-b">
+                B
+              </label>
+              <input
+                className="mocp cp-rgb-input"
+                id="cp-input-b"
+                inputMode="numeric"
+                onChange={(event) => handleRgbChange('b', event.target.value)}
+                pattern="[0-9]*"
+                placeholder="B"
+                value={parsedColor.rgb.b}
+              />
+            </div>
           </div>
         </div>
-
-        <div className="mocp cp-input-group">
-          <div>
-            <label className="mocp cp-input-label" htmlFor="cp-input-r">
-              R
-            </label>
-            <input
-              className="mocp cp-rgb-input"
-              id="cp-input-r"
-              inputMode="numeric"
-              onChange={(event) => handleRgbChange('r', event.target.value)}
-              pattern="[0-9]*"
-              placeholder="R"
-              value={parsedColor.rgb.r}
-            />
-          </div>
-          <div>
-            <label className="mocp cp-input-label" htmlFor="cp-input-g">
-              G
-            </label>
-            <input
-              className="mocp cp-rgb-input"
-              id="cp-input-g"
-              inputMode="numeric"
-              onChange={(event) => handleRgbChange('g', event.target.value)}
-              pattern="[0-9]*"
-              placeholder="G"
-              value={parsedColor.rgb.g}
-            />
-          </div>
-          <div>
-            <label className="mocp cp-input-label" htmlFor="cp-input-b">
-              B
-            </label>
-            <input
-              className="mocp cp-rgb-input"
-              id="cp-input-b"
-              inputMode="numeric"
-              onChange={(event) => handleRgbChange('b', event.target.value)}
-              pattern="[0-9]*"
-              placeholder="B"
-              value={parsedColor.rgb.b}
-            />
-          </div>
-        </div>
-      </div>
-}
+      )}
     </div>
   );
 };
@@ -216,5 +195,5 @@ export const ColorPicker = (props: ColorPickerProps) => {
 ColorPicker.defaultProps = {
   color: DEFAULT_COLOR,
   colors: DEFAULT_COLORS,
-  variant: ColorPickerVariant.Predefined
+  variant: ColorPickerVariant.Predefined,
 };
