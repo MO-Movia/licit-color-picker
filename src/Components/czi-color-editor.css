@@ -158,7 +158,6 @@ table {
 .randomColorTable {
   border-collapse: separate;
   border-spacing: 3px;
-  border-collapse: expression('separate', cellSpacing='10px');
   margin-left: 3px;
 }
 

@@ -1,4 +1,3 @@
-import Color from 'color';
 import React from 'react';
 import './czi-color-editor.css';
 import { ColorPicker, ColorPickerVariant } from './ColorPicker';
@@ -180,27 +179,28 @@ export class ColorEditor extends React.PureComponent<
     if (!colorData) {
       return null;
     }
-    const colorButtons = colorData.shades.map((shade, shadeIndex) => {
+    const colorButtons = colorData.shades.map((shade) => {
+      let borderStyle;
+      if (shade.value === '#ffffff') {
+        borderStyle = '0.1px solid #eeeff1';
+      } else if (shade.value === '#7030a0') {
+        borderStyle = '0.1px solid #7030a0';
+      } else {
+        borderStyle = 'none';
+      }
       const style = {
         backgroundColor: shade.value,
-        border:
-          shade.value === '#ffffff'
-            ? '0.1px solid #eeeff1'
-            : shade.value === '#7030a0'
-            ? '0.1px solid #7030a0'
-            : 'none',
-        boxShadow:
-          shade.value === this.props?.Textcolor
-            ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
-            : 'none',
+        border: borderStyle,
+        boxShadow: shade.value === this.props?.Textcolor
+          ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
+          : 'none',
       };
-
-      if (TypeName == 'Custom') {
+      if (TypeName === 'Custom') {
         return (
-          <tr>
+          <tr key={`custom-color-row-${shade.id}`}>
             <td
               className="mocp mcp-color-editor-cell"
-              key={`custom-color-${shadeIndex}`}
+              key={`custom-color-${shade.id}`}
               onClick={() => this._onSelectColor(shade.value)}
               onMouseDown={preventEventDefault}
               onMouseEnter={preventEventDefault}
@@ -213,7 +213,7 @@ export class ColorEditor extends React.PureComponent<
         return (
           <td
             className="mocp mcp-color-editor-cell"
-            key={`custom-color-${shadeIndex}`}
+            key={`custom-color-${shade.id}`}
             onClick={() => this._onSelectColor(shade.value)}
             onMouseDown={preventEventDefault}
             onMouseEnter={preventEventDefault}
@@ -234,92 +234,71 @@ export class ColorEditor extends React.PureComponent<
     }
   }
 
-  renderCustomColorsHeader(colorName, arrList, TypeName) {
+  renderCustomColorsHeader(colorName, arrList) {
     const colorData = arrList.colors.find((color) => color.name === colorName);
     if (!colorData) {
       return null;
     }
     const colorButtons = colorData.shades.map((shade, shadeIndex) => {
+      let marginLeftValue;
+      const index = shadeIndex;
+      if (shade.value === '#ff0000' || shade.value === '#000000') {
+        marginLeftValue = '2px';
+      } else {
+        marginLeftValue = '3px';
+      }
       const style = {
         backgroundColor: shade.value,
         border: shade.value === '#ffffff' ? '0.1px solid #eeeff1' : 'none',
-        marginLeft:
-          shade.value === '#ff0000'
-            ? '2px'
-            : shade.value === '#000000'
-            ? '2px'
-            : '3px',
-        boxShadow:
-          shade.value === this.props?.Textcolor
-            ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
-            : 'none',
+        marginLeft: marginLeftValue,
+        boxShadow: shade.value === this.props?.Textcolor ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000' : 'none',
       };
 
-      if (TypeName == 'Custom') {
-        return (
-          <div
-            className="mocp mcp-color-editor-cell mcp-inner"
-            key={`custom-color-${shadeIndex}`}
-            onClick={() => this._onSelectColor(shade.value)}
-            onMouseDown={preventEventDefault}
-            onMouseEnter={preventEventDefault}
-            onMouseUp={preventEventDefault}
-            style={style}
-          ></div>
-        );
-      } else {
-        return (
-          <div
-            className="mocp mcp-color-editor-cell mcp-inner"
-            key={`custom-color-${shadeIndex}`}
-            onClick={() => this._onSelectColor(shade.value)}
-            onMouseDown={preventEventDefault}
-            onMouseEnter={preventEventDefault}
-            onMouseUp={preventEventDefault}
-            style={style}
-          ></div>
-        );
-      }
+      return (
+        <div
+          className="mocp mcp-color-editor-cell mcp-inner"
+          key={`custom-color-${index}`}
+          onClick={() => this._onSelectColor(shade.value)}
+          onKeyDown={preventEventDefault}
+          onMouseDown={preventEventDefault}
+          onMouseEnter={preventEventDefault}
+          onMouseUp={preventEventDefault}
+          style={style}
+          tabIndex={0}
+        ></div>
+      );
     });
-    if (TypeName == 'Custom') {
-      return (
-        <div className="mocp mcp-color-editor-column mcp-containerHead">
-          {colorButtons}
-        </div>
-      );
-    } else {
-      return (
-        <div className="mocp mcp-color-editor-column mcp-containerHead">
-          {colorButtons}
-        </div>
-      );
-    }
+    return (
+      <div className="mocp mcp-color-editor-column mcp-containerHead">
+        {colorButtons}
+      </div>
+    );
   }
-
   renderCustomColorsTable = () => {
-    return colorNames.map((colorName, index) => (
-      <table
-        className={`${
-          index === 0
-            ? 'mocp customFirstColorTable'
-            : colorName === 'Purple'
-            ? 'mocp customColorTable purpleTable'
-            : 'mocp customColorTable'
-        }`}
-        key={colorName}
-      >
-        <tbody>
-          {this.renderCustomColors(colorName, customColors, 'Custom')}
-        </tbody>
-      </table>
-    ));
+    return colorNames.map((colorName, index) => {
+      let className = 'mocp customColorTable';
+      if (index === 0) {
+        className += ' customFirstColorTable';
+      } else if (colorName === 'Purple') {
+        className += ' purpleTable';
+      }
+      return (
+        <table
+          className={className}
+          key={colorName}
+        >
+          <tbody>
+            {this.renderCustomColors(colorName, customColors, 'Custom')}
+          </tbody>
+        </table>
+      );
+    });
   };
-
   renderHeaderColorsTable = () => {
     return headerColorNames.map((colorName) => (
       <div key={colorName}>
         <div className="mocp mcp-header-color">
-          {this.renderCustomColorsHeader(colorName, HeaderColors, 'Header')}
+          {this.renderCustomColorsHeader(colorName, HeaderColors)}
         </div>
       </div>
     ));
@@ -362,6 +341,12 @@ export class ColorEditor extends React.PureComponent<
             <div
               className="mocp cp-close-button"
               onClick={(event) => this._onRemoverecent(event, shade.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  this._onRemoverecent(e, shade.id);
+                }
+              }}
+              tabIndex={0}
             >
               <span className="cp-close-button-x">x</span>
             </div>
@@ -435,9 +420,15 @@ export class ColorEditor extends React.PureComponent<
               <div
                 className="mocp mcp-color-editor-color-transparent"
                 onClick={() => this.setState({ showFirst: false })}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    this.setState({ showFirst: false });
+                  }
+                }}
                 onMouseDown={preventEventDefault}
                 onMouseEnter={preventEventDefault}
                 onMouseUp={preventEventDefault}
+                tabIndex={0}
               >
                 More Colors...
               </div>
@@ -481,22 +472,7 @@ export class ColorEditor extends React.PureComponent<
     );
   }
 
-  _renderColor = (color: Color, index: number): React.ReactElement => {
-    const hex = color.hex().toLowerCase();
-    const style = { backgroundColor: hex };
-    return (
-      <button
-        className="mocp mcp-color-editor-cell"
-        key={`${hex}-${index}`}
-        onClick={() => this._onSelectColor(hex)}
-        onMouseDown={preventEventDefault}
-        onMouseEnter={preventEventDefault}
-        onMouseUp={preventEventDefault}
-        style={style}
-        value={hex}
-      />
-    );
-  };
+
 
   _onSelectColor = (hex: string): void => {
     this._onSuccess({ id: 1, color: hex });

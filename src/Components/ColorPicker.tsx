@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import {
   clamp,
-  DEFAULT_COLOR,
   DEFAULT_COLORS,
   getHueCoordinates,
   getSaturationCoordinates,
@@ -193,7 +192,12 @@ export const ColorPicker = (props: ColorPickerProps) => {
 };
 
 ColorPicker.defaultProps = {
-  color: DEFAULT_COLOR,
+  // color: DEFAULT_COLOR,
+  colors: DEFAULT_COLORS,
+  variant: ColorPickerVariant.Predefined,
+};
+
+ColorPicker.propTypes = {
   colors: DEFAULT_COLORS,
   variant: ColorPickerVariant.Predefined,
 };

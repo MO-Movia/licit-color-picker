@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {ColorEditor} from './ColorEditor';
+import { ColorEditor } from './ColorEditor';
 
 describe('ColorEditor Component', () => {
     const customColors = {
@@ -125,6 +125,46 @@ describe('ColorEditor Component', () => {
             }
         ]
     };
+
+    const HeaderColors = {
+        colors: [
+            {
+                name: 'GreyScale',
+                shades: [
+                    { key: 'shade1', value: '#000000' },
+                    { key: 'shade2', value: '#444444' },
+                    { key: 'shade3', value: '#666666' },
+                    { key: 'shade4', value: '#999999' },
+                    { key: 'shade5', value: '#acacac' },
+                    { key: 'shade6', value: '#c8c8c8' },
+                    { key: 'shade7', value: '#e1e1e1' },
+                    { key: 'shade7', value: '#f3f3f3' },
+                    { key: 'shade8', value: '#ffffff' },
+                ],
+            },
+            {
+                name: 'RandomColors',
+                shades: [
+                    { key: 'shade1', value: '#ff0000' },
+                    { key: 'shade2', value: '#ffc000' },
+                    { key: 'shade3', value: '#ffff00' },
+                    { key: 'shade4', value: '#92d050' },
+                    { key: 'shade4', value: '#00b050' },
+                    { key: 'shade5', value: '#00b0f0' },
+                    { key: 'shade6', value: '#0070c0' },
+                    { key: 'shade7', value: '#ff00ff' },
+                    { key: 'shade8', value: '#7030a0' },
+                ],
+            },
+        ],
+    };
+
+    const HeaderColorsEmpty = {
+        colors: [
+
+        ],
+    };
+
     const props = {
         hex: 'hex',
     };
@@ -191,18 +231,95 @@ describe('ColorEditor Component', () => {
         const colorEditor = new ColorEditor(props);
         expect(colorEditor.render()).toBeDefined();
     });
-it('should handle renderRecentCustomColors',()=>{
-    colorEditor.state ={recentColors:undefined};
-    expect(colorEditor.renderRecentCustomColors()).toBeNull();
-});
+    it('should handle renderRecentCustomColors', () => {
+        colorEditor.state = { recentColors: undefined };
+        expect(colorEditor.renderRecentCustomColors()).toBeNull();
+    });
 
-it('should handle renderRecentCustomColors',()=>{
-    colorEditor.state ={recentColors:[{color:'#ffffff'}]};
-    expect(colorEditor.renderRecentCustomColors()).toBeDefined();
-});
+    it('should handle renderRecentCustomColors', () => {
+        colorEditor.state = { recentColors: [{ color: '#ffffff' }] };
+        expect(colorEditor.renderRecentCustomColors()).toBeDefined();
+    });
 
-it('should handle renderRecentCustomColors',()=>{
-    colorEditor.state ={recentColors:[{color:'#red'}]};
-    expect(colorEditor.renderRecentCustomColors()).toBeDefined();
-});
+    it('should handle renderRecentCustomColors', () => {
+        colorEditor.state = { recentColors: [{ color: '#red' }] };
+        expect(colorEditor.renderRecentCustomColors()).toBeDefined();
+    });
+
+    it('should render custom colors', () => {
+        const props = {
+            hex: 'hex',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+        expect(colorEditor.renderCustomColorsHeader('GreyScale', HeaderColors)).toBeDefined();
+    });
+
+    it('should render custom colors', () => {
+        const props = {
+            Textcolor: '#75160c',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+        expect(colorEditor.renderCustomColors('Red', customColors, 'Custom')).toBeDefined();
+    });
+
+    it('should render custom colors', () => {
+        const props = {
+            Textcolor: '#ffffff',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+        expect(colorEditor.renderCustomColorsHeader('GreyScale', HeaderColors)).toBeDefined();
+    });
+
+    it('should render custom colors', () => {
+        const props = {
+            Textcolor: '#ffffff',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+        expect(colorEditor.renderCustomColors('GreyScale', HeaderColors, 'Custom')).toBeDefined();
+    });
+
+    it('should render custom colors', () => {
+        const props = {
+            Textcolor: '#7030a0',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+        expect(colorEditor.renderCustomColors('RandomColors', HeaderColors, 'Custom')).toBeDefined();
+    });
+
+    it('should render header colors', () => {
+        const props = {
+            hex: 'hex',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+        expect(colorEditor.renderCustomColorsHeader('GreyScale', HeaderColorsEmpty)).toBeDefined();
+    });
+
+    it('should render custom colors', () => {
+        const props = {
+            Textcolor: '#7030a0',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+        expect(colorEditor.renderCustomColors('RandomColors', HeaderColors, 'Empty')).toBeDefined();
+    });
+
+    it('should handle renderRecentCustomColors', () => {
+
+        const props = {
+            Textcolor: '#ffffff',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+
+        colorEditor.state = { recentColors: [{ color: '#ffffff' }] };
+        expect(colorEditor.renderRecentCustomColors()).toBeDefined();
+    });
+
+
 });

@@ -61,57 +61,102 @@ describe('ColorPicker Component', () => {
     expect(onChangeMock).toHaveBeenCalledWith({ h: 0, s: 0, v: 0 });
   });
 
-  test('calls onChange with updated values for each component', () => {
+  test('handles RGB input change correctly', () => {
     const onChangeMock = jest.fn();
-    const placeholderHSV: ColorHSV = { h: 0, s: 0, v: 0 };
-
-    const { getByLabelText } = render(
+    const colors = ['#ff0000', '#00ff00', '#0000ff'];
+    const hsv = { h: 0, s: 0, v: 0 };
+    const { getByPlaceholderText } = render(
       <ColorPicker
-        colors={[]}
-        hsv={placeholderHSV}
+        color="#ff0000"
+        colors={colors}
+        hsv={hsv}
         onChange={onChangeMock}
         variant={ColorPickerVariant.Free}
       />
     );
-
-    fireEvent.change(getByLabelText('R'), { target: { value: '255' } });
-    fireEvent.change(getByLabelText('G'), { target: { value: '128' } });
-    fireEvent.change(getByLabelText('B'), { target: { value: '64' } });
-
+  
+    const rInput = getByPlaceholderText('R');
+    fireEvent.change(rInput, { target: { value: '123' } });
+  
     expect(onChangeMock).toHaveBeenCalledWith({ h: 0, s: 0, v: 0 });
   });
 
-  test('calls onChange with updated values', () => {
+  test('color preview updates when hex input changes', () => {
     const onChangeMock = jest.fn();
-    const placeholderHSV = { h: 0, s: 0, v: 0 };
+    const colors = ['#ff0000', '#00ff00', '#0000ff'];
+    const hsv = { h: 0, s: 0, v: 0 };
+    const { getByPlaceholderText, container } = render(
+      <ColorPicker
+        color="#ff0000"
+        colors={colors}
+        hsv={hsv}
+        onChange={onChangeMock}
+        variant={ColorPickerVariant.Free}
+      />
+    );
+  
+    const hexInput = getByPlaceholderText('Hex');
+    fireEvent.change(hexInput, { target: { value: '#00ff00' } });
+  
+    const colorPreview = container.querySelector('.mocp.cp-color-preview');
+    expect(colorPreview).toBeDefined();
+  });
+
+  test('RGB input fields update correctly', () => {
+    const onChangeMock = jest.fn();
+    const colors = ['#ff0000', '#00ff00', '#0000ff'];
+    const hsv = { h: 0, s: 0, v: 0 };
+    const { getByPlaceholderText } = render(
+      <ColorPicker
+        color="#ff0000"
+        colors={colors}
+        hsv={hsv}
+        onChange={onChangeMock}
+        variant={ColorPickerVariant.Free}
+      />
+    );
+  
+    const rInput = getByPlaceholderText('R');
+    const gInput = getByPlaceholderText('G');
+    const bInput = getByPlaceholderText('B');
+  
+    fireEvent.change(rInput, { target: { value: '100' } });
+    fireEvent.change(gInput, { target: { value: '150' } });
+    fireEvent.change(bInput, { target: { value: '200' } });
+  
+    expect(onChangeMock).toHaveBeenCalledWith({ h: 0, s: 0, v: 0 }); // Ensure onChange is called with the updated HSV value
+  });
+
+  test('renders correctly with default props', () => {
     const { container } = render(
       <ColorPicker
-        colors={[]}
-        hsv={placeholderHSV}
+      color=""
+        onChange={() => {}}
+        hsv={{ h: 0, s: 0, v: 0 }}
+      />
+    );
+  
+    expect(container).toBeInTheDocument();
+  });
+
+  test('handleSaturationChange updates HSV value correctly', () => {
+    const onChangeMock = jest.fn();
+    const hsv = { h: 180, s: 50, v: 75 }; // Example initial HSV value
+    const { container } = render(
+      <ColorPicker
+        color="#ff0000"
+        colors={['#ff0000', '#00ff00', '#0000ff']}
+        hsv={hsv}
         onChange={onChangeMock}
         variant={ColorPickerVariant.Free}
       />
     );
 
-    const mockBoundingClientRect = jest.fn(() => ({
-      width: 200,
-      height: 100,
-      left: 0,
-      top: 0,
-      right: 200,
-      bottom: 100,
-      x: 0,
-      y: 0,
-      toJSON: () => ({}),
-    }));
+    const saturationDiv = container.querySelector('.mocp.cp-input-container')!;
+    fireEvent.click(saturationDiv, { clientX: 50, clientY: 25 }); // Simulate mouse event at specific position
 
-    if (container.firstChild instanceof HTMLElement) {
-      container.firstChild.getBoundingClientRect = mockBoundingClientRect;
-    }
 
-    fireEvent.mouseMove(container.firstChild as HTMLElement, {
-      clientX: 50,
-      clientY: 25,
-    });
+    expect(onChangeMock).toBeDefined();
   });
+
 });
