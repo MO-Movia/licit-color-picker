@@ -322,4 +322,146 @@ describe('ColorEditor Component', () => {
     });
 
 
+
+    it('should handle _onSelectColor', () => {
+        const props = {
+            hex: '#ffffff',
+            runtime: '',
+            close: jest.fn()
+        };
+        const colorEditor = new ColorEditor(props);
+        expect(colorEditor._onSelectColor('#ffffff')).toBeUndefined();
+    });
+
+    it('should handle error in componentDidMount', async () => {
+        const error = new Error('Mock error');
+        const mockGetRecentColors = jest.fn().mockRejectedValue(error);
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+        const props = {
+            hex: '',
+            runtime: ''
+        };
+        const colorEditor = new ColorEditor(props);
+        colorEditor._getRecentColors = mockGetRecentColors;
+        await colorEditor.componentDidMount();
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching data:', error);
+        consoleErrorSpy.mockRestore();
+    });
+
+    
+
+    it('should handle _onSaveColor', () => {
+        const saveRecentColorMock = jest.fn().mockResolvedValue(true);
+        const runtimeMock = {
+            saveRecentColor: saveRecentColorMock
+        };
+
+        const props = {
+            hex: '#ffffff',
+            runtime: runtimeMock,
+            close: jest.fn()
+        };
+        const colorEditor = new ColorEditor(props);
+        colorEditor._recentColorList = [{ id: 1, color: '#ffffff' },
+        { id: 1, color: '#ffffff' }, { id: 1, color: '#fff0ff' },
+        { id: 1, color: '#ffffff' }, { id: 1, color: '#ffffff' },
+        { id: 1, color: '#ffffff' }, { id: 1, color: '#f5ff0f' },
+        { id: 1, color: '#ffffff' }, { id: 1, color: '#ffffff' },
+        { id: 1, color: '#ffffff' }, { id: 1, color: '#fff8ff' },
+        { id: 1, color: '#ffffff' }, { id: 1, color: '#ffff7f' }];
+        expect(colorEditor._onSaveColor('#ffffff')).toBeUndefined();
+    });
+
+    it('should handle _onSaveColor empty', () => {
+        const saveRecentColorMock = jest.fn().mockResolvedValue(true);
+        const runtimeMock = {
+            saveRecentColor: saveRecentColorMock
+        };
+        const props = {
+            hex: '#ffffff',
+            runtime: runtimeMock,
+            close: jest.fn()
+        };
+        const colorEditor = new ColorEditor(props);
+        colorEditor._recentColorList = [];
+        expect(colorEditor._onSaveColor('#ffffff')).toBeUndefined();
+    });
+
+    it('should fetch recent colors and update state', async () => {
+        const getRecentColorsMock = jest.fn().mockResolvedValue([
+            { id: 1, color: '#ffffff' },
+            { id: 2, color: '#000000' },
+        ]);
+        const runtimeMock = {
+            getRecentColors: getRecentColorsMock
+        };
+
+        const props = {
+            hex: '#ffffff',
+            runtime: runtimeMock,
+            close: jest.fn()
+        };
+
+        const colorEditor = new ColorEditor(props);
+        await colorEditor._getRecentColors();
+        expect(getRecentColorsMock).toHaveBeenCalled();
+    });
+
+    it('should handle _onRemoveRecent', () => {
+        const deleteRecentColorByIdMock = jest.fn().mockResolvedValue(true);
+        const runtimeMock = {
+            deleteRecentColorById: deleteRecentColorByIdMock
+        };
+
+        const props = {
+            hex: '#ffffff',
+            runtime: runtimeMock,
+            close: jest.fn()
+        };
+
+        const colorEditor = new ColorEditor(props);
+        const recentColor = { id: 1, color: '#ffffff' };
+        colorEditor._recentColorList = [recentColor];
+        const mockEvent = { stopPropagation: jest.fn() };
+        colorEditor._onRemoverecent(mockEvent, null);
+        expect(deleteRecentColorByIdMock).toHaveBeenCalledWith(null);
+
+    });
+
+    it('should render custom colors', () => {
+        const props = {
+            hex: 'hex',
+            runtime: '',
+        };
+        const colorEditor = new ColorEditor(props);
+
+        const mockState = {
+            color: '#ff0000',
+            hsv: { h: 0, s: 100, v: 100 },
+            showFirst : true
+          };
+
+        colorEditor.state = mockState;
+        expect(colorEditor.render()).toBeDefined();
+    });
+
+    it('should render custom colors to false', () => {
+        const props = {
+            hex: 'hex',
+            runtime: '',
+        };
+
+        const colorEditor = new ColorEditor(props);
+
+        const mockState = {
+            color: '#ff0000',
+            hsv: { h: 0, s: 100, v: 100 },
+            showFirst : false
+          };
+
+        colorEditor.state = mockState;
+        expect(colorEditor.render()).toBeDefined();
+    });
+
+
 });

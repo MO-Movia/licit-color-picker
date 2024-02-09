@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { ColorPicker, ColorPickerVariant } from './ColorPicker'; // Adjust the import path based on your project structure
-import { ColorHSV } from '../Interfaces/Color';
 
 // Mock the utility functions and child components
 jest.mock('../Utils', () => ({
@@ -77,7 +76,6 @@ describe('ColorPicker Component', () => {
   
     const rInput = getByPlaceholderText('R');
     fireEvent.change(rInput, { target: { value: '123' } });
-  
     expect(onChangeMock).toHaveBeenCalledWith({ h: 0, s: 0, v: 0 });
   });
 
@@ -97,7 +95,6 @@ describe('ColorPicker Component', () => {
   
     const hexInput = getByPlaceholderText('Hex');
     fireEvent.change(hexInput, { target: { value: '#00ff00' } });
-  
     const colorPreview = container.querySelector('.mocp.cp-color-preview');
     expect(colorPreview).toBeDefined();
   });
@@ -123,25 +120,23 @@ describe('ColorPicker Component', () => {
     fireEvent.change(rInput, { target: { value: '100' } });
     fireEvent.change(gInput, { target: { value: '150' } });
     fireEvent.change(bInput, { target: { value: '200' } });
-  
-    expect(onChangeMock).toHaveBeenCalledWith({ h: 0, s: 0, v: 0 }); // Ensure onChange is called with the updated HSV value
+    expect(onChangeMock).toHaveBeenCalledWith({ h: 0, s: 0, v: 0 });
   });
 
   test('renders correctly with default props', () => {
     const { container } = render(
       <ColorPicker
       color=""
-        onChange={() => {}}
         hsv={{ h: 0, s: 0, v: 0 }}
+        onChange={() => undefined}
       />
     );
-  
     expect(container).toBeInTheDocument();
   });
 
   test('handleSaturationChange updates HSV value correctly', () => {
     const onChangeMock = jest.fn();
-    const hsv = { h: 180, s: 50, v: 75 }; // Example initial HSV value
+    const hsv = { h: 180, s: 50, v: 75 };
     const { container } = render(
       <ColorPicker
         color="#ff0000"
@@ -153,9 +148,7 @@ describe('ColorPicker Component', () => {
     );
 
     const saturationDiv = container.querySelector('.mocp.cp-input-container')!;
-    fireEvent.click(saturationDiv, { clientX: 50, clientY: 25 }); // Simulate mouse event at specific position
-
-
+    fireEvent.click(saturationDiv, { clientX: 50, clientY: 25 });
     expect(onChangeMock).toBeDefined();
   });
 

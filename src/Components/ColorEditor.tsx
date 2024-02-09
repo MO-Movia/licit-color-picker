@@ -341,11 +341,7 @@ export class ColorEditor extends React.PureComponent<
             <div
               className="mocp cp-close-button"
               onClick={(event) => this._onRemoverecent(event, shade.id)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  this._onRemoverecent(e, shade.id);
-                }
-              }}
+              onKeyDown={preventEventDefault}
               tabIndex={0}
             >
               <span className="cp-close-button-x">x</span>
@@ -420,11 +416,7 @@ export class ColorEditor extends React.PureComponent<
               <div
                 className="mocp mcp-color-editor-color-transparent"
                 onClick={() => this.setState({ showFirst: false })}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    this.setState({ showFirst: false });
-                  }
-                }}
+                onKeyDown={preventEventDefault}
                 onMouseDown={preventEventDefault}
                 onMouseEnter={preventEventDefault}
                 onMouseUp={preventEventDefault}
