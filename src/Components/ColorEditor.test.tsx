@@ -348,7 +348,7 @@ describe('ColorEditor Component', () => {
         consoleErrorSpy.mockRestore();
     });
 
-    
+
 
     it('should handle _onSaveColor', () => {
         const saveRecentColorMock = jest.fn().mockResolvedValue(true);

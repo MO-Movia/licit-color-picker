@@ -73,7 +73,7 @@ describe('ColorPicker Component', () => {
         variant={ColorPickerVariant.Free}
       />
     );
-  
+
     const rInput = getByPlaceholderText('R');
     fireEvent.change(rInput, { target: { value: '123' } });
     expect(onChangeMock).toHaveBeenCalledWith({ h: 0, s: 0, v: 0 });
@@ -92,7 +92,7 @@ describe('ColorPicker Component', () => {
         variant={ColorPickerVariant.Free}
       />
     );
-  
+
     const hexInput = getByPlaceholderText('Hex');
     fireEvent.change(hexInput, { target: { value: '#00ff00' } });
     const colorPreview = container.querySelector('.mocp.cp-color-preview');
@@ -112,11 +112,11 @@ describe('ColorPicker Component', () => {
         variant={ColorPickerVariant.Free}
       />
     );
-  
+
     const rInput = getByPlaceholderText('R');
     const gInput = getByPlaceholderText('G');
     const bInput = getByPlaceholderText('B');
-  
+
     fireEvent.change(rInput, { target: { value: '100' } });
     fireEvent.change(gInput, { target: { value: '150' } });
     fireEvent.change(bInput, { target: { value: '200' } });
