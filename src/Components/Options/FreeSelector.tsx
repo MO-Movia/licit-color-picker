@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 import { Color } from '../../Interfaces/Color';
 import './FreeSelector.css';
-import preventEventDefault from '../preventEventDefault';
+import {preventEventDefault} from '../preventEventDefault';
 
 interface FreeSelectorProps {
   parsedColor: Color;
@@ -24,6 +24,7 @@ export const FreeSelector = (props: FreeSelectorProps) => {
     <div className="mocp cp-free-root">
 
       <div className="mocp cp-hue" onClick={onHueChange}
+      onKeyDown={preventEventDefault}
         onMouseDown={preventEventDefault}
         onMouseEnter={preventEventDefault}
         onMouseUp={preventEventDefault}
@@ -43,6 +44,7 @@ export const FreeSelector = (props: FreeSelectorProps) => {
 
           className="mocp cp-saturation"
           onClick={onSaturationChange}
+          onKeyDown={preventEventDefault}
           onMouseDown={preventEventDefault}
           onMouseEnter={preventEventDefault}
           onMouseUp={preventEventDefault}

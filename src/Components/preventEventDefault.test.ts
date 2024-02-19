@@ -1,5 +1,5 @@
-import preventEventDefault from './preventEventDefault';
-import * as React from 'react';
+import { preventEventDefault } from './preventEventDefault';
+import React from 'react';
 
 describe('preventEventDefault', () => {
   it('calls preventDefault on the event', () => {

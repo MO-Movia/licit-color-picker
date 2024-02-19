@@ -3,7 +3,9 @@
  * https://jestjs.io/docs/configuration
  */
 
-export default {
+import type { JestConfigWithTsJest } from 'ts-jest';
+
+const jestConfig: JestConfigWithTsJest = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -43,7 +45,7 @@ export default {
   ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  coverageThreshold: { global: { branches: 80, functions: 80, lines: 80, }, },
+  coverageThreshold: { global: { branches: 80, functions: 80, lines: 80 } },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -61,7 +63,13 @@ export default {
   // globalTeardown: undefined,
 
   // A set of global variables that need to be available in all test environments
-  // globals: {},
+  /* globals: {
+    'ts-jest': {
+      tsconfig: {
+        allowJs: true,
+      },
+    },
+  },*/
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   // maxWorkers: "50%",
@@ -108,12 +116,10 @@ export default {
       'jest-junit',
       {
         outputDirectory: 'coverage',
-        outputName: 'TESTS.xml'
-      }
-    ]
-  ]
-  ,
-
+        outputName: 'TESTS.xml',
+      },
+    ],
+  ],
   // Automatically reset mock state between every test
   // resetMocks: false,
 
@@ -138,10 +144,10 @@ export default {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: ['../jest.setup.js'],
+  setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ['jest-prosemirror/environment'],
+  setupFilesAfterEnv: ['jest-prosemirror/environment', '../jest.setup.ts'],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -186,14 +192,21 @@ export default {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '^.+\\.tsx?$': 'babel-jest',
+    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
+    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
+    '^.+\\.m?[tj]sx?$': [
+      'ts-jest',
+      {
+        useESM: true,
+        tsconfig: {
+          allowJs: true,
+        },
+      },
+    ],
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "/node_modules/",
-  //   "\\.pnp\\.[^\\/]+$"
-  // ],
+  transformIgnorePatterns: ['/node_modules/', '\\.pnp\\.[^\\/]+$'],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
@@ -209,3 +222,5 @@ export default {
   // Default timeout of a test in milliseconds.
   testTimeout: 30000,
 };
+
+export default jestConfig;

@@ -47,13 +47,20 @@ export function rgbToHsv(color: ColorRGB): ColorHSV {
   const max = Math.max(r, g, b);
   const d = max - Math.min(r, g, b);
 
-  const h = d
-    ? (max === r
-        ? (g - b) / d + (g < b ? 6 : 0)
-        : max === g
-        ? 2 + (b - r) / d
-        : 4 + (r - g) / d) * 60
-    : 0;
+  let h;
+if (d) {
+  if (max === r) {
+    h = (g - b) / d + (g < b ? 6 : 0);
+  } else if (max === g) {
+    h = 2 + (b - r) / d;
+  } else {
+    h = 4 + (r - g) / d;
+  }
+  h *= 60;
+} else {
+  h = 0;
+}
+
   const s = max ? (d / max) * 100 : 0;
   const v = max * 100;
 

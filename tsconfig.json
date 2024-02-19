@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
+    "strict": false,
     "jsx": "react",
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "esnext",
     "moduleResolution": "node",
     "lib": [
       "es5",
       "es6",
-      "es2017",
+      "es2022",
       "dom",
       "dom.iterable"
     ],
@@ -22,13 +23,20 @@
     ],
     // Ensure that .d.ts files are created by tsc, but not .js files
     "declaration": true,
-    //"emitDeclarationOnly": true,
     // Ensure that Babel can safely transpile files in the TypeScript project
     "isolatedModules": true
   },
   "typeAcquisition": {
     "enable": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules", "**/*.test.ts","src/**/*.test.tsx"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "./jest.setup.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }
