@@ -32,25 +32,21 @@
   border-radius: 50%;
 }
 
-input {
-  padding: 4px 6px;
-}
-
-label,
-input {
-  display: block;
-}
-
 .cp-input-label {
   font-size: 12px;
+  display: block;
 }
 
 .cp-hex-input {
   width: 67px;
+  padding: 4px 6px;
+  display: block;
 }
 
 .cp-rgb-input {
+  padding: 4px 6px;
   width: 30px;
+  display: block;
 }
 
 
