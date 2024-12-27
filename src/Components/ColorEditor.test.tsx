@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ColorEditor } from './ColorEditor';
+import { ColorEditor, ColorEditorState } from './ColorEditor';
 
 describe('ColorEditor Component', () => {
     const customColors = {
@@ -232,17 +232,23 @@ describe('ColorEditor Component', () => {
         expect(colorEditor.render()).toBeDefined();
     });
     it('should handle renderRecentCustomColors', () => {
-        colorEditor.state = { recentColors: undefined };
+        colorEditor.state = {
+          recentColors: undefined,
+        } as unknown as ColorEditorState;
         expect(colorEditor.renderRecentCustomColors()).toBeNull();
     });
 
     it('should handle renderRecentCustomColors', () => {
-        colorEditor.state = { recentColors: [{ color: '#ffffff' }] };
+        colorEditor.state = {
+          recentColors: [{ color: '#ffffff' }],
+        } as unknown as ColorEditorState;
         expect(colorEditor.renderRecentCustomColors()).toBeDefined();
     });
 
     it('should handle renderRecentCustomColors', () => {
-        colorEditor.state = { recentColors: [{ color: '#red' }] };
+        colorEditor.state = {
+          recentColors: [{ color: '#red' }],
+        } as unknown as ColorEditorState;
         expect(colorEditor.renderRecentCustomColors()).toBeDefined();
     });
 
@@ -317,7 +323,7 @@ describe('ColorEditor Component', () => {
         };
         const colorEditor = new ColorEditor(props);
 
-        colorEditor.state = { recentColors: [{ color: '#ffffff' }] };
+        colorEditor.state = { recentColors: [{ color: '#ffffff' }] } as unknown as ColorEditorState;
         expect(colorEditor.renderRecentCustomColors()).toBeDefined();
     });
 
@@ -418,13 +424,14 @@ describe('ColorEditor Component', () => {
             runtime: runtimeMock,
             close: jest.fn()
         };
+        const id = -1;
 
         const colorEditor = new ColorEditor(props);
         const recentColor = { id: 1, color: '#ffffff' };
         colorEditor._recentColorList = [recentColor];
-        const mockEvent = { stopPropagation: jest.fn() };
-        colorEditor._onRemoverecent(mockEvent, null);
-        expect(deleteRecentColorByIdMock).toHaveBeenCalledWith(null);
+        const mockEvent = { stopPropagation: jest.fn() } as unknown as React.MouseEvent;
+        colorEditor._onRemoverecent(mockEvent, id);
+        expect(deleteRecentColorByIdMock).toHaveBeenCalledWith(id);
 
     });
 
@@ -436,6 +443,7 @@ describe('ColorEditor Component', () => {
         const colorEditor = new ColorEditor(props);
 
         const mockState = {
+            recentColors: [],
             color: '#ff0000',
             hsv: { h: 0, s: 100, v: 100 },
             showFirst : true
@@ -454,6 +462,7 @@ describe('ColorEditor Component', () => {
         const colorEditor = new ColorEditor(props);
 
         const mockState = {
+            recentColors: [],
             color: '#ff0000',
             hsv: { h: 0, s: 100, v: 100 },
             showFirst : false

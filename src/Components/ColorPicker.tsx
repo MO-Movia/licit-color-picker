@@ -9,7 +9,6 @@ import {
   parseColor,
   rgbToHsv,
 } from '../Utils';
-import './ColorPicker.css';
 import { FreeSelector, PredefinedSelector } from './Options';
 import { ColorHSV } from '../Interfaces/Color';
 

@@ -1,17 +1,17 @@
-import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
-import { PredefinedSelector } from "./PredefinedSelector";
+import React from 'react';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { PredefinedSelector } from './PredefinedSelector';
 
-describe("PredefinedSelector Component", () => {
-  const colors = ["#ff0000", "#00ff00", "#0000ff"];
+describe('PredefinedSelector Component', () => {
+  const colors = ['#ff0000', '#00ff00', '#0000ff'];
 
   const mockColor = {
-    hex: "#ffffff",
+    hex: '#ffffff',
     rgb: { r: 1, g: 3, b: 2 },
     hsv: { h: 1, s: 2, v: 3 },
   };
 
-  it("renders correctly", () => {
+  it('renders correctly', () => {
     const onSelectMock = jest.fn();
     render(
       <PredefinedSelector
@@ -27,7 +27,7 @@ describe("PredefinedSelector Component", () => {
     });
   });
 
-  xit("handles color selection correctly", () => {
+  xit('handles color selection correctly', () => {
     const onSelectMock = jest.fn();
     render(
       <PredefinedSelector
@@ -43,7 +43,7 @@ describe("PredefinedSelector Component", () => {
     expect(onSelectMock).toHaveBeenCalledWith(colors[1]);
   });
 
-  it("handles color selection correctly", () => {
+  it('handles color selection correctly', () => {
     const onSelectMock = jest.fn();
     const { container } = render(
       <PredefinedSelector
@@ -52,17 +52,17 @@ describe("PredefinedSelector Component", () => {
         parsedColor={mockColor}
       />
     );
-    const colorButton = container.querySelector(".cp-color-button")!;
+    const colorButton = container.querySelector('.cp-color-button')!;
     fireEvent.click(colorButton);
     expect(onSelectMock).toHaveBeenCalledWith(colors[0]);
   });
 
-  it("handles color selection correctly by colorlist", () => {
+  it('handles color selection correctly by colorlist', () => {
     const onSelectMock = jest.fn();
-    const colorsList = ["#ffffff", "#ffffff", "#ffffff"];
+    const colorsList = ['#ffffff', '#ffffff', '#ffffff'];
 
     const mockSameColor = {
-      hex: "#ffffff",
+      hex: '#ffffff',
       rgb: { r: 1, g: 3, b: 2 },
       hsv: { h: 1, s: 2, v: 3 },
     };
@@ -73,7 +73,7 @@ describe("PredefinedSelector Component", () => {
         parsedColor={mockSameColor}
       />
     );
-    const colorButton = container.querySelector(".cp-color-button")!;
+    const colorButton = container.querySelector('.cp-color-button')!;
     fireEvent.click(colorButton);
     expect(onSelectMock).toHaveBeenCalledWith(colorsList[0]);
   });
