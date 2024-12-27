@@ -1,5 +1,4 @@
 import React from 'react';
-import './czi-color-editor.css';
 import { ColorPicker, ColorPickerVariant } from './ColorPicker';
 import { ColorHSV, MoreColor } from '../Interfaces/Color';
 import { hexToRgb, hsvToRgb, rgbToHex, rgbToHsv } from '../Utils';
@@ -163,14 +162,26 @@ const customColors = {
 const colorNames = customColors.colors.map((color) => color.name);
 const headerColorNames = HeaderColors.colors.map((color) => color.name);
 
+export type ColorEditorProps = {
+  close: (color: string) => void;
+  runtime?: {
+    deleteRecentColorById: (id: number) => void;
+    getRecentColors: () => Promise<MoreColor[]>;
+    saveRecentColor: (colors: MoreColor[]) => Promise<MoreColor>;
+  };
+  Textcolor?: string;
+};
+
+export type ColorEditorState = {
+  recentColors: MoreColor[];
+  showFirst: boolean;
+  color: string;
+  hsv: ColorHSV;
+};
+
 export class ColorEditor extends React.PureComponent<
-  {
-    close: (string) => void;
-    hex?: string;
-    runtime?: any;
-    Textcolor?: any;
-  },
-  any
+  ColorEditorProps,
+  ColorEditorState
 > {
   _recentColorList: MoreColor[];
 
@@ -191,10 +202,14 @@ export class ColorEditor extends React.PureComponent<
       const style = {
         backgroundColor: shade.value,
         border: borderStyle,
-        boxShadow: shade.value === this.props?.Textcolor
-          ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
-          : 'none',
+        boxShadow:
+          shade.value === this.props?.Textcolor
+            ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
+            : 'none',
       };
+      if(!shade?.id) {
+        return '';
+      }
       if (TypeName === 'Custom') {
         return (
           <tr key={`custom-color-row-${shade.id}`}>
@@ -251,7 +266,10 @@ export class ColorEditor extends React.PureComponent<
         backgroundColor: shade.value,
         border: shade.value === '#ffffff' ? '0.1px solid #eeeff1' : 'none',
         marginLeft: marginLeftValue,
-        boxShadow: shade.value === this.props?.Textcolor ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000' : 'none',
+        boxShadow:
+          shade.value === this.props?.Textcolor
+            ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
+            : 'none',
       };
 
       return (
@@ -283,10 +301,7 @@ export class ColorEditor extends React.PureComponent<
         className += ' purpleTable';
       }
       return (
-        <table
-          className={className}
-          key={colorName}
-        >
+        <table className={className} key={colorName}>
           <tbody>
             {this.renderCustomColors(colorName, customColors, 'Custom')}
           </tbody>
@@ -464,24 +479,20 @@ export class ColorEditor extends React.PureComponent<
     );
   }
 
-
-
   _onSelectColor = (hex: string): void => {
     this._onSuccess({ id: 1, color: hex });
   };
 
-  _onRemoverecent = (event: any, id: null): void => {
+  _onRemoverecent = (event: React.MouseEvent, id: number): void => {
     if (this.props.runtime) {
       const runtime = this.props.runtime;
       const { deleteRecentColorById } = runtime;
-      if (deleteRecentColorById) {
-        if (this._recentColorList) {
-          const index = this._recentColorList.findIndex((c) => c.id === id);
-          if (index > -1) {
-            this._recentColorList.splice(index, 1);
-          }
-          deleteRecentColorById(id);
+      if (deleteRecentColorById && this._recentColorList) {
+        const index = this._recentColorList.findIndex((c) => c.id === id);
+        if (index > -1) {
+          this._recentColorList.splice(index, 1);
         }
+        deleteRecentColorById(id);
       }
     }
     event.stopPropagation();

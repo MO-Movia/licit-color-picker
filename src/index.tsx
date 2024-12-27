@@ -1,5 +1,4 @@
 import React from 'react';
-import './index.css';
 import { ColorEditor } from './Components/ColorEditor';
 import ReactDOM from 'react-dom/client';
 

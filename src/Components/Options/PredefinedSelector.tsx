@@ -1,6 +1,5 @@
 import React from 'react';
 import { Color } from '../../Interfaces/Color';
-import './PredefinedSelector.css';
 
 const predefinedRows = 3;
 
