@@ -207,6 +207,9 @@ export class ColorEditor extends React.PureComponent<
             ? 'inset 0 0 0 1px #ffffff, 0 0 0 1px #ff0000'
             : 'none',
       };
+      if(!shade?.id) {
+        return '';
+      }
       if (TypeName === 'Custom') {
         return (
           <tr key={`custom-color-row-${shade.id}`}>
