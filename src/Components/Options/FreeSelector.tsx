@@ -1,6 +1,5 @@
 import React, { MouseEventHandler } from 'react';
 import { Color } from '../../Interfaces/Color';
-import './FreeSelector.css';
 import {preventEventDefault} from '../preventEventDefault';
 
 interface FreeSelectorProps {
