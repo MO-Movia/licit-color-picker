@@ -176,19 +176,6 @@ describe('ColorEditor Component', () => {
         expect(getByText('Select Color')).toBeInTheDocument();
     });
 
-    xit('handles color selection correctly', async () => {
-        const closeMock = jest.fn();
-        const { getByText, getByTestId } = render(<ColorEditor close={closeMock} />);
-
-        fireEvent.click(getByText('Your Color Selector Text'));
-        await waitFor(() => {
-            expect(getByTestId('selected-color')).toHaveStyle({ backgroundColor: '#ff0000' });
-        });
-
-        fireEvent.click(getByText('OK'));
-        expect(closeMock).toHaveBeenCalledWith('#ff0000');
-    });
-
     it('handle ColorEditor', () => {
         const props = {
             hex: 'hex',

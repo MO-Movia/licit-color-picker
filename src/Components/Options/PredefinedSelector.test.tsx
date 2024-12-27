@@ -27,22 +27,6 @@ describe('PredefinedSelector Component', () => {
     });
   });
 
-  xit('handles color selection correctly', () => {
-    const onSelectMock = jest.fn();
-    render(
-      <PredefinedSelector
-        colors={colors}
-        onSelect={onSelectMock}
-        parsedColor={mockColor}
-      />
-    );
-
-    const colorButton = screen.getByTestId(`color-button-${colors[1]}`);
-    fireEvent.click(colorButton);
-
-    expect(onSelectMock).toHaveBeenCalledWith(colors[1]);
-  });
-
   it('handles color selection correctly', () => {
     const onSelectMock = jest.fn();
     const { container } = render(
