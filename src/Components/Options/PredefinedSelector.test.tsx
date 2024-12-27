@@ -43,7 +43,7 @@ describe('PredefinedSelector Component', () => {
 
   it('handles color selection correctly by colorlist', () => {
     const onSelectMock = jest.fn();
-    const colorsList = ['#ffffff', '#ffffff', '#ffffff'];
+    const colorsList = [...colors];
 
     const mockSameColor = {
       hex: '#ffffff',
