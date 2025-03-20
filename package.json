@@ -1,6 +1,6 @@
 {
   "name": "@modusoperandi/color-picker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "type": "module",
   "description": "A color picker library",
@@ -38,7 +38,7 @@
     "jest-sonar-reporter": "^2.0.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
-    "typescript": "5.7.3"
+    "typescript": "^5.7.3"
   },
   "overrides": {
     "libxmljs2": "^1.0.0"
