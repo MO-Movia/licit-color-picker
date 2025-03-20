@@ -1,11 +1,11 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
-}
-
 @import url("./index.css");
 @import url("./Components/ColorPicker.css");
 @import url("./Components/czi-vars.css");
 @import url("./Components/czi-color-editor.css");
 @import url("./Components/Options/FreeSelector.css");
 @import url("./Components/Options/PredefinedSelector.css");
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
