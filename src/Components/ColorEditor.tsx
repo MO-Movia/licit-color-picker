@@ -163,13 +163,19 @@ const colorNames = customColors.colors.map((color) => color.name);
 const headerColorNames = HeaderColors.colors.map((color) => color.name);
 
 export type ColorEditorProps = {
-  close: (color: string) => void;
+  close: (colorDetails: ColorDetails) => void;
   runtime?: {
     deleteRecentColorById: (id: number) => void;
     getRecentColors: () => Promise<MoreColor[]>;
     saveRecentColor: (colors: MoreColor[]) => Promise<MoreColor>;
   };
   Textcolor?: string;
+  showCheckbox?: boolean;
+};
+
+export type ColorDetails = {
+  color: string;
+  selectedPosition?: string,
 };
 
 export type ColorEditorState = {
@@ -177,12 +183,13 @@ export type ColorEditorState = {
   showFirst: boolean;
   color: string;
   hsv: ColorHSV;
+  selectedPosition?: string,
 };
 
 export class ColorEditor extends React.PureComponent<
   ColorEditorProps,
   ColorEditorState
-> {
+  > {
   _recentColorList: MoreColor[];
 
   renderCustomColors(colorName, arrList, TypeName) {
@@ -377,6 +384,7 @@ export class ColorEditor extends React.PureComponent<
       showFirst: true,
       recentColors: [],
       hsv: rgbToHsv(hexToRgb(defaultColor)),
+      selectedPosition: this.props.showCheckbox ? 'Top' : '',
     };
   }
 
@@ -390,16 +398,62 @@ export class ColorEditor extends React.PureComponent<
   }
 
   render() {
-    const showFirst = this.state.showFirst;
-    const color = this.state.color;
-    const hsv = this.state.hsv;
+    const { showFirst, color, hsv, selectedPosition } = this.state;
+
     const handleChange = (hsv: ColorHSV) => {
       const color = rgbToHex(hsvToRgb(hsv));
       this.setState({ color, hsv });
     };
 
+    const handlePositionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      this.setState({ selectedPosition: event.target.value });
+    };
+
     return (
       <div className="mocp mcp-color-editor">
+        {this.props.showCheckbox && (
+          <div style={{ marginTop: '10px' }}>
+            <label style={{ marginRight: '13px' }}>
+              <input
+                checked={selectedPosition === 'Top'}
+                name="position"
+                onChange={handlePositionChange}
+                type="radio"
+                value="Top"
+              />
+          Top
+        </label>
+            <label style={{ marginRight: '13px' }}>
+              <input
+                checked={selectedPosition === 'Bottom'}
+                name="position"
+                onChange={handlePositionChange}
+                type="radio"
+                value="Bottom"
+              />
+          Bottom
+        </label>
+            <label style={{ marginRight: '13px' }}>
+              <input
+                checked={selectedPosition === 'Left'}
+                name="position"
+                onChange={handlePositionChange}
+                type="radio"
+                value="Left"
+              />
+          Left
+        </label>
+            <label>
+              <input
+                checked={selectedPosition === 'Right'}
+                name="position"
+                onChange={handlePositionChange}
+                type="radio"
+                value="Right"
+              />
+          Right
+        </label>
+          </div>)}
         {showFirst && (
           <div className="mocp mcp-color-editor-main-section">
             <div className="mocp mcp-color-editor-section">
@@ -527,7 +581,7 @@ export class ColorEditor extends React.PureComponent<
   };
 
   _onSuccess = (col: MoreColor): void => {
-    this.props.close(col.color);
+    this.props.close({ color: col.color, selectedPosition: this.state?.selectedPosition });
   };
 
   _getRecentColors = async (): Promise<void> => {
