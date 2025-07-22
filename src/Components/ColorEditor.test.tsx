@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ColorEditor, ColorEditorState } from './ColorEditor';
 
@@ -480,5 +480,91 @@ describe('ColorEditor Component', () => {
 
     colorEditor.state = mockState;
     expect(colorEditor.render()).toBeDefined();
+  });
+});
+
+const mockRuntime = {
+  deleteRecentColorById: jest.fn(),
+  getRecentColors: jest.fn().mockResolvedValue([
+    { id: 1, color: '#ff0000' },
+    { id: 2, color: '#00ff00' },
+  ]),
+  saveRecentColor: jest.fn().mockResolvedValue({ id: 3, color: '#0000ff' }),
+};
+
+describe('ColorEditor', () => {
+  it('renders correctly with checkboxes', () => {
+    render(<ColorEditor close={jest.fn()} showCheckbox />);
+    expect(screen.getByLabelText('Top')).toBeInTheDocument();
+    expect(screen.getByLabelText('Bottom')).toBeInTheDocument();
+  });
+
+  it('renders and selects a header color', () => {
+    const mockClose = jest.fn();
+    render(<ColorEditor close={mockClose} />);
+
+    const headerColor = screen.getAllByRole('table', { hidden: true }).find(el => el.style.backgroundColor === 'rgb(255, 0, 0)');
+    if (headerColor) {
+      fireEvent.click(headerColor);
+      expect(mockClose).toHaveBeenCalledWith(expect.objectContaining({
+        color: '#ff0000',
+      }));
+    }
+  });
+
+  it('renders recent colors from runtime', async () => {
+    render(<ColorEditor close={jest.fn()} runtime={mockRuntime} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByRole('cell')).toHaveLength(83);
+    });
+
+    expect(mockRuntime.getRecentColors).toHaveBeenCalled();
+  });
+
+  it('removes recent color on click', async () => {
+    const mockClose = jest.fn();
+    render(<ColorEditor close={mockClose} runtime={mockRuntime} />);
+
+    await waitFor(() => {
+      const removeButton = screen.getAllByText('x')[0];
+      fireEvent.click(removeButton);
+    });
+
+    expect(mockRuntime.deleteRecentColorById).toHaveBeenCalledWith(2);
+    expect(mockClose).toHaveBeenCalled();
+  });
+
+  it('expands to More Colors view and saves color', async () => {
+    const mockClose = jest.fn();
+    render(<ColorEditor close={mockClose} runtime={mockRuntime} />);
+
+    fireEvent.click(screen.getByText(/more colors/i));
+    expect(await screen.findByText('Cancel')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('OK'));
+    await waitFor(() => {
+      expect(mockRuntime.saveRecentColor).toHaveBeenCalled();
+    });
+
+    expect(mockClose).toHaveBeenCalledWith(expect.objectContaining({
+      color: '#000000',
+    }));
+  });
+
+  it('calls close with correct position when checkbox is selected', () => {
+    const mockClose = jest.fn();
+    render(<ColorEditor close={mockClose} showCheckbox />);
+
+    const rightRadio = screen.getByLabelText('Right');
+    fireEvent.click(rightRadio);
+
+    const headerColor = screen.getAllByRole('table', { hidden: true }).find(el => el.style.backgroundColor === 'rgb(255, 0, 0)');
+    if (headerColor) {
+      fireEvent.click(headerColor);
+      expect(mockClose).toHaveBeenCalledWith(expect.objectContaining({
+        selectedPosition: 'Right',
+      }));
+    }
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "@modusoperandi/color-picker",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "type": "module",
   "description": "A color picker library",
@@ -17,7 +17,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@cyclonedx/cyclonedx-npm": "^2.0.0",
+    "@cyclonedx/cyclonedx-npm": "^3.0.0",
     "@testing-library/jest-dom": "^6.4.1",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.4.3",
