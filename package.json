@@ -10,7 +10,7 @@
   "style": "styles.css",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MO-Movia/licit-color-picker"
+    "url": "https://github.com/MO-Movia/licit-color-picker"
   },
   "dependencies": {
     "react": "^18.2.0",
