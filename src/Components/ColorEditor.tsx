@@ -175,7 +175,7 @@ export type ColorEditorProps = {
 
 export type ColorDetails = {
   color: string;
-  selectedPosition?: string,
+  selectedPosition?: string[],
 };
 
 export type ColorEditorState = {
@@ -183,13 +183,13 @@ export type ColorEditorState = {
   showFirst: boolean;
   color: string;
   hsv: ColorHSV;
-  selectedPosition?: string,
+  selectedPosition?: string[],
 };
 
 export class ColorEditor extends React.PureComponent<
   ColorEditorProps,
   ColorEditorState
-  > {
+> {
   _recentColorList: MoreColor[];
 
   renderCustomColors(colorName, arrList, TypeName) {
@@ -384,7 +384,7 @@ export class ColorEditor extends React.PureComponent<
       showFirst: true,
       recentColors: [],
       hsv: rgbToHsv(hexToRgb(defaultColor)),
-      selectedPosition: this.props.showCheckbox ? 'Top' : '',
+      selectedPosition: this.props.showCheckbox ? ['Top'] : [],
     };
   }
 
@@ -406,7 +406,15 @@ export class ColorEditor extends React.PureComponent<
     };
 
     const handlePositionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      this.setState({ selectedPosition: event.target.value });
+      const { value, checked } = event.target;
+
+      this.setState((prevState: Readonly<typeof this.state>) => {
+        const updatedPositions = checked
+          ? [...prevState.selectedPosition, value] // add if checked
+          : prevState.selectedPosition.filter(pos => pos !== value); // remove if unchecked
+
+        return { selectedPosition: updatedPositions };
+      });
     };
 
     return (
@@ -415,44 +423,44 @@ export class ColorEditor extends React.PureComponent<
           <div style={{ marginTop: '10px' }}>
             <label style={{ marginRight: '13px' }}>
               <input
-                checked={selectedPosition === 'Top'}
+                checked={selectedPosition.includes('Top')}
                 name="position"
                 onChange={handlePositionChange}
-                type="radio"
+                type="checkbox"
                 value="Top"
               />
-          Top
-        </label>
+              Top
+            </label>
             <label style={{ marginRight: '13px' }}>
               <input
-                checked={selectedPosition === 'Bottom'}
+                checked={selectedPosition.includes('Bottom')}
                 name="position"
                 onChange={handlePositionChange}
-                type="radio"
+                type="checkbox"
                 value="Bottom"
               />
-          Bottom
-        </label>
+              Bottom
+            </label>
             <label style={{ marginRight: '13px' }}>
               <input
-                checked={selectedPosition === 'Left'}
+                checked={selectedPosition.includes('Left')}
                 name="position"
                 onChange={handlePositionChange}
-                type="radio"
+                type="checkbox"
                 value="Left"
               />
-          Left
-        </label>
+              Left
+            </label>
             <label>
               <input
-                checked={selectedPosition === 'Right'}
+                checked={selectedPosition.includes('Right')}
                 name="position"
                 onChange={handlePositionChange}
-                type="radio"
+                type="checkbox"
                 value="Right"
               />
-          Right
-        </label>
+              Right
+            </label>
           </div>)}
         {showFirst && (
           <div className="mocp mcp-color-editor-main-section">
